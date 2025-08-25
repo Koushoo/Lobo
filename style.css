@@ -1,4 +1,10 @@
 :root {
+  .bg-image {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: url('e7ec9270-4859-490d-a5a8-853b5fc0b007.jpg') center center / cover no-repeat;
+  z-index: -2;
+  }
   /* Primitive Color Tokens */
   --color-white: rgba(255, 255, 255, 1);
   --color-black: rgba(0, 0, 0, 1);
