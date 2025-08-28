@@ -1,1016 +1,626 @@
-// Celestia - Apple-Style JavaScript with 500+ Design Tokens Implementation
-// Made by Kousho
+// Celestia - Premium Apple-inspired announcement website
+// Made by Koushoo
 
 class CelestiaApp {
     constructor() {
-        // Target launch date: November 1, 2025 00:00:00 IST
-        this.targetDate = new Date('2025-11-01T00:00:00+05:30').getTime();
+        this.targetDate = new Date('2025-10-01T00:00:00').getTime();
+        this.scrollY = 0;
+        this.isScrolling = false;
         
-        // DOM Elements - Initialize after DOM is loaded
-        this.countdownElements = {};
-        this.modal = null;
-        this.modalBackdrop = null;
-        this.modalClose = null;
-        this.notifyBtn = null;
-        this.notifyBtnNav = null;
-        this.learnMoreBtn = null;
-        this.notificationForm = null;
-        this.contactForm = null;
-        this.navToggle = null;
-        this.navMenu = null;
-        
-        // State management
-        this.isModalOpen = false;
-        this.isNavOpen = false;
-        this.scrollPosition = 0;
-        this.isCountdownComplete = false;
-        
-        // Animation and interaction handlers
-        this.observers = [];
-        this.resizeHandlers = [];
-        this.scrollHandlers = [];
-        
-        this.countdownInterval = null;
+        this.init();
     }
-    
-    // Initialize all functionality
+
     init() {
-        // Wait for DOM to be fully loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.initializeApp());
-        } else {
-            this.initializeApp();
-        }
-    }
-    
-    initializeApp() {
-        this.initializeDOMElements();
+        this.showLoadingScreen();
+        this.setupEventListeners();
         this.startCountdown();
-        this.initModalHandlers();
-        this.initFormHandling();
-        this.initNavigationHandlers();
-        this.initScrollAnimations();
-        this.initAppleStyleInteractions();
-        this.initGlassmorphismEffects();
-        this.initPerformanceOptimizations();
-        this.initAccessibilityFeatures();
-        this.initResponsiveHandlers();
-        this.initAdvancedAnimations();
-        
-        console.log('🌟 Celestia initialized successfully by Kousho');
+        this.setupSmoothScrolling();
+        this.setupScrollAnimations();
+        this.setupNavigation();
+        this.setupNotificationForm();
+        this.setupMicroInteractions();
+        this.createBackgroundAnimation();
     }
-    
-    initializeDOMElements() {
-        // Countdown elements
-        this.countdownElements = {
-            days: document.getElementById('days'),
-            hours: document.getElementById('hours'),
-            minutes: document.getElementById('minutes'),
-            seconds: document.getElementById('seconds')
-        };
+
+    showLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
         
-        // Modal elements
-        this.modal = document.getElementById('notificationModal');
-        this.modalBackdrop = document.getElementById('modalBackdrop');
-        this.modalClose = document.getElementById('modalClose');
-        
-        // Button elements
-        this.notifyBtn = document.getElementById('notifyBtn');
-        this.notifyBtnNav = document.getElementById('notifyBtnNav');
-        this.learnMoreBtn = document.getElementById('learnMore');
-        
-        // Form elements
-        this.notificationForm = document.getElementById('notificationForm');
-        this.contactForm = document.getElementById('contactForm');
-        
-        // Navigation elements
-        this.navToggle = document.getElementById('navToggle');
-        this.navMenu = document.getElementById('navMenu');
+        // Hide loading screen after 2 seconds
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            this.startPageAnimations();
+        }, 2000);
     }
-    
-    // === COUNTDOWN TIMER SYSTEM ===
+
+    startPageAnimations() {
+        // Add entrance animations to elements
+        const elements = document.querySelectorAll('.hero-container, .nav');
+        elements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+
+    setupEventListeners() {
+        // Scroll events
+        window.addEventListener('scroll', this.throttle(() => {
+            this.handleScroll();
+        }, 16));
+
+        // Resize events
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
+
+        // Keyboard shortcuts (Apple-style)
+        document.addEventListener('keydown', (e) => {
+            if (e.metaKey || e.ctrlKey) {
+                switch (e.key.toLowerCase()) {
+                    case 'r':
+                        e.preventDefault();
+                        this.refreshCountdown();
+                        break;
+                    case 'n':
+                        e.preventDefault();
+                        document.getElementById('email-input').focus();
+                        break;
+                }
+            }
+        });
+    }
+
     startCountdown() {
         const updateCountdown = () => {
             const now = new Date().getTime();
             const distance = this.targetDate - now;
-            
-            if (distance < 0 && !this.isCountdownComplete) {
-                this.handleCountdownComplete();
+
+            if (distance < 0) {
+                this.showLaunchMessage();
                 return;
             }
-            
-            if (distance >= 0) {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                this.animateCountdownValue(this.countdownElements.days, days);
-                this.animateCountdownValue(this.countdownElements.hours, hours);
-                this.animateCountdownValue(this.countdownElements.minutes, minutes);
-                this.animateCountdownValue(this.countdownElements.seconds, seconds);
-            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            this.animateNumberChange('days', days.toString().padStart(3, '0'));
+            this.animateNumberChange('hours', hours.toString().padStart(2, '0'));
+            this.animateNumberChange('minutes', minutes.toString().padStart(2, '0'));
+            this.animateNumberChange('seconds', seconds.toString().padStart(2, '0'));
         };
-        
+
         updateCountdown();
         this.countdownInterval = setInterval(updateCountdown, 1000);
     }
-    
-    animateCountdownValue(element, newValue) {
-        if (!element) return;
-        
-        const currentValue = parseInt(element.textContent) || 0;
-        if (currentValue !== newValue) {
-            // Apple-style scaling animation
-            element.style.transform = 'scale(1.2)';
-            element.style.filter = 'brightness(1.3)';
+
+    animateNumberChange(elementId, newValue) {
+        const element = document.getElementById(elementId);
+        if (element && element.textContent !== newValue) {
+            element.style.transform = 'scale(1.1)';
+            element.style.opacity = '0.7';
             
             setTimeout(() => {
-                element.textContent = newValue.toString().padStart(2, '0');
+                element.textContent = newValue;
                 element.style.transform = 'scale(1)';
-                element.style.filter = 'brightness(1)';
+                element.style.opacity = '1';
             }, 150);
-            
-            // Add ripple effect
-            this.createCountdownRipple(element);
         }
     }
-    
-    createCountdownRipple(element) {
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background: rgba(0, 122, 255, 0.6);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: countdownRipple 0.6s ease-out;
-            pointer-events: none;
-            z-index: 10;
-        `;
-        
-        if (element.parentElement) {
-            element.parentElement.style.position = 'relative';
-            element.parentElement.appendChild(ripple);
-        }
-        
-        setTimeout(() => {
-            if (ripple.parentElement) {
-                ripple.remove();
-            }
-        }, 600);
-    }
-    
-    handleCountdownComplete() {
-        this.isCountdownComplete = true;
-        if (this.countdownInterval) {
-            clearInterval(this.countdownInterval);
-        }
-        
-        const countdownLabel = document.querySelector('.countdown-label');
-        const countdownContainer = document.querySelector('.countdown');
-        
-        if (countdownLabel) {
-            countdownLabel.textContent = '🎉 Celestia is Live! 🎉';
-            countdownLabel.style.background = 'linear-gradient(135deg, #00C851, #007E33)';
-            countdownLabel.style.webkitBackgroundClip = 'text';
-            countdownLabel.style.webkitTextFillColor = 'transparent';
-        }
-        
-        if (countdownContainer) {
-            countdownContainer.innerHTML = `
-                <div class="launch-message glass-item" style="grid-column: 1 / -1; padding: 2rem; text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
-                    <div style="font-size: 1.5rem; font-weight: 600; color: var(--color-green);">Available Now!</div>
-                </div>
-            `;
-        }
-        
-        // Update CTA buttons
-        document.querySelectorAll('.btn--primary').forEach(btn => {
-            if (btn.textContent.includes('Notify') || btn.textContent.includes('Get Notified')) {
-                btn.textContent = 'Launch Celestia';
-                btn.style.background = 'linear-gradient(135deg, var(--color-green), var(--color-teal))';
-            }
-        });
-        
-        // Celebration animation
-        this.triggerCelebrationAnimation();
-    }
-    
-    triggerCelebrationAnimation() {
-        const createConfetti = () => {
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.cssText = `
-                    position: fixed;
-                    top: -10px;
-                    left: ${Math.random() * 100}vw;
-                    width: ${Math.random() * 10 + 5}px;
-                    height: ${Math.random() * 10 + 5}px;
-                    background: hsl(${Math.random() * 360}, 70%, 60%);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 1000;
-                    animation: confettiFall ${Math.random() * 3 + 2}s linear forwards;
-                `;
-                
-                document.body.appendChild(confetti);
-                setTimeout(() => {
-                    if (confetti.parentElement) {
-                        confetti.remove();
-                    }
-                }, 5000);
-            }
-        };
-        
-        createConfetti();
-        setTimeout(createConfetti, 500);
-        setTimeout(createConfetti, 1000);
-    }
-    
-    // === MODAL SYSTEM ===
-    initModalHandlers() {
-        // Multiple trigger buttons
-        if (this.notifyBtn) {
-            this.notifyBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal();
-            });
-        }
-        
-        if (this.notifyBtnNav) {
-            this.notifyBtnNav.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal();
-            });
-        }
-        
-        // Learn more button smooth scroll
-        if (this.learnMoreBtn) {
-            this.learnMoreBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const featuresSection = document.getElementById('features');
-                if (featuresSection) {
-                    featuresSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        }
-        
-        // Close handlers
-        if (this.modalClose) {
-            this.modalClose.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal();
-            });
-        }
-        
-        if (this.modalBackdrop) {
-            this.modalBackdrop.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal();
-            });
-        }
-        
-        // Keyboard handlers
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.isModalOpen) {
-                this.closeModal();
-            }
-        });
-        
-        // Prevent scroll when modal is open
-        if (this.modal) {
-            this.modal.addEventListener('wheel', (e) => {
-                if (this.isModalOpen) {
-                    e.preventDefault();
-                }
-            });
-        }
-    }
-    
-    openModal() {
-        if (!this.modal) return;
-        
-        this.isModalOpen = true;
-        this.scrollPosition = window.pageYOffset;
-        
-        // Prevent body scroll
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${this.scrollPosition}px`;
-        document.body.style.width = '100%';
-        
-        this.modal.classList.remove('hidden');
-        
-        // Apple-style entrance animation
-        requestAnimationFrame(() => {
-            if (this.modal) {
-                this.modal.style.opacity = '1';
-                const modalContent = this.modal.querySelector('.modal-content');
-                if (modalContent) {
-                    modalContent.style.transform = 'scale(1)';
-                }
-            }
-        });
-        
-        // Focus management
-        setTimeout(() => {
-            if (this.modal) {
-                const emailInput = this.modal.querySelector('input[type="email"]');
-                if (emailInput) {
-                    emailInput.focus();
-                }
-            }
-        }, 300);
-        
-        // Add blur effect to background
-        document.body.classList.add('modal-open');
-    }
-    
-    closeModal() {
-        if (!this.modal) return;
-        
-        this.isModalOpen = false;
-        
-        // Restore scroll position
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.classList.remove('modal-open');
-        window.scrollTo(0, this.scrollPosition);
-        
-        this.modal.classList.add('hidden');
-        
-        // Return focus to trigger button
-        if (this.notifyBtn) {
-            this.notifyBtn.focus();
-        }
-    }
-    
-    // === FORM HANDLING SYSTEM ===
-    initFormHandling() {
-        // Notification form
-        if (this.notificationForm) {
-            this.notificationForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleNotificationFormSubmission(e);
-            });
-        }
-        
-        // Contact form
-        if (this.contactForm) {
-            this.contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleContactFormSubmission(e);
-            });
-        }
-        
-        // Real-time validation for all email inputs
-        document.querySelectorAll('input[type="email"]').forEach(input => {
-            input.addEventListener('blur', () => this.validateEmail(input));
-            input.addEventListener('input', () => this.clearFieldError(input));
-        });
-        
-        // Enhanced form interactions for all form controls
-        document.querySelectorAll('.form-control').forEach(control => {
-            control.addEventListener('focus', (e) => this.handleFieldFocus(e));
-            control.addEventListener('blur', (e) => this.handleFieldBlur(e));
-        });
-        
-        // Ensure all form inputs are functional
-        document.querySelectorAll('input, select, textarea').forEach(input => {
-            input.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-        });
-    }
-    
-    async handleNotificationFormSubmission(e) {
-        const emailInput = e.target.querySelector('input[type="email"]');
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        
-        if (!emailInput || !submitBtn) {
-            console.error('Form elements not found');
-            return;
-        }
-        
-        const email = emailInput.value.trim();
-        
-        if (!this.isValidEmail(email)) {
-            this.showFieldError(emailInput, 'Please enter a valid email address');
-            return;
-        }
-        
-        // Apple-style loading state
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Joining...';
-        submitBtn.disabled = true;
-        
-        try {
-            await this.simulateSubscription(email);
-            this.showSuccessModal();
-        } catch (error) {
-            this.showFieldError(emailInput, 'Something went wrong. Please try again.');
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    }
-    
-    async handleContactFormSubmission(e) {
-        const formData = new FormData(e.target);
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        
-        if (!submitBtn) {
-            console.error('Submit button not found');
-            return;
-        }
-        
-        // Validate all fields
-        const email = formData.get('email');
-        const name = formData.get('name');
-        
-        if (!this.isValidEmail(email)) {
-            const emailInput = e.target.querySelector('[name="email"]');
-            if (emailInput) {
-                this.showFieldError(emailInput, 'Valid email required');
-            }
-            return;
-        }
-        
-        if (!name || name.trim().length < 2) {
-            const nameInput = e.target.querySelector('[name="name"]');
-            if (nameInput) {
-                this.showFieldError(nameInput, 'Name must be at least 2 characters');
-            }
-            return;
-        }
-        
-        // Loading state
-        const originalText = submitBtn.textContent;
-        submitBtn.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" fill="none">
-                    <animateTransform attributeName="transform" type="rotate" values="0 12 12;360 12 12" dur="1s" repeatCount="indefinite"/>
-                </path>
-            </svg>
-            Submitting...
-        `;
-        submitBtn.disabled = true;
-        
-        try {
-            await this.simulateContactSubmission(Object.fromEntries(formData));
-            this.showContactSuccess(e.target);
-        } catch (error) {
-            this.showFormError(e.target, 'Unable to submit. Please try again.');
-        } finally {
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1000);
-        }
-    }
-    
-    validateEmail(input) {
-        const email = input.value.trim();
-        if (email && !this.isValidEmail(email)) {
-            this.showFieldError(input, 'Please enter a valid email address');
-            return false;
-        }
-        this.clearFieldError(input);
-        return true;
-    }
-    
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    showFieldError(field, message) {
-        if (!field) return;
-        
-        field.style.borderColor = 'var(--color-red)';
-        field.style.animation = 'shake 0.4s ease-in-out';
-        
-        let errorMsg = field.parentElement.querySelector('.error-message');
-        if (!errorMsg) {
-            errorMsg = document.createElement('div');
-            errorMsg.className = 'error-message';
-            errorMsg.style.cssText = `
-                color: var(--color-red);
-                font-size: var(--font-size-sm);
-                margin-top: var(--space-1);
-                opacity: 0;
-                transform: translateY(-10px);
-                transition: all var(--duration-fast) var(--ease-apple);
-            `;
-            field.parentElement.appendChild(errorMsg);
-        }
-        
-        errorMsg.textContent = message;
-        requestAnimationFrame(() => {
-            errorMsg.style.opacity = '1';
-            errorMsg.style.transform = 'translateY(0)';
-        });
-        
-        // Auto-clear error after 5 seconds
-        setTimeout(() => this.clearFieldError(field), 5000);
-    }
-    
-    clearFieldError(field) {
-        if (!field) return;
-        
-        field.style.borderColor = '';
-        field.style.animation = '';
-        
-        const errorMsg = field.parentElement.querySelector('.error-message');
-        if (errorMsg) {
-            errorMsg.style.opacity = '0';
-            errorMsg.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-                if (errorMsg.parentElement) {
-                    errorMsg.remove();
-                }
-            }, 200);
-        }
-    }
-    
-    handleFieldFocus(e) {
-        const field = e.target;
-        field.style.transform = 'scale(1.02)';
-        field.style.boxShadow = '0 0 0 3px rgba(0, 122, 255, 0.2)';
-    }
-    
-    handleFieldBlur(e) {
-        const field = e.target;
-        field.style.transform = 'scale(1)';
-        field.style.boxShadow = '';
-    }
-    
-    simulateSubscription(email) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log(`🌟 Subscription added: ${email}`);
-                resolve({ success: true });
-            }, 1500);
-        });
-    }
-    
-    simulateContactSubmission(data) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log('📧 Contact form submitted:', data);
-                resolve({ success: true });
-            }, 2000);
-        });
-    }
-    
-    showSuccessModal() {
-        if (!this.modal) return;
-        
-        const modalBody = this.modal.querySelector('.modal-body');
-        if (modalBody) {
-            modalBody.innerHTML = `
-                <div class="success-content">
-                    <div class="success-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" fill="var(--color-green)" opacity="0.2"/>
-                            <path d="M9 12l2 2 4-4" stroke="var(--color-green)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h4 style="color: var(--text-primary); margin: var(--space-4) 0;">You're all set! 🎉</h4>
-                    <p style="color: var(--text-secondary); margin-bottom: var(--space-6);">We'll notify you the moment Celestia launches on November 1, 2025.</p>
-                    <button class="btn btn--primary btn--full-width" onclick="window.celestiaApp.closeModal()">Perfect!</button>
-                </div>
-            `;
-            
-            // Success animation
-            const successIcon = modalBody.querySelector('.success-icon');
-            if (successIcon) {
-                successIcon.style.animation = 'successBounce 0.8s var(--ease-spring)';
-            }
-        }
-    }
-    
-    showContactSuccess(form) {
-        if (!form) return;
-        
-        const originalHTML = form.innerHTML;
-        form.innerHTML = `
-            <div class="success-content" style="text-align: center; padding: var(--space-6);">
-                <div class="success-icon">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" fill="var(--color-green)" opacity="0.2"/>
-                        <path d="M9 12l2 2 4-4" stroke="var(--color-green)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h3 style="color: var(--text-primary); margin: var(--space-4) 0;">Message Sent! ✨</h3>
-                <p style="color: var(--text-secondary);">Thanks for your interest in Celestia. We'll be in touch soon!</p>
+
+    showLaunchMessage() {
+        const countdownContainer = document.querySelector('.countdown-container');
+        countdownContainer.innerHTML = `
+            <div class="launch-message">
+                <div class="launch-icon">🚀</div>
+                <h3 class="launch-title">Celestia has launched!</h3>
+                <p class="launch-subtitle">The future is here</p>
+                <a href="#" class="btn-primary launch-btn">Experience Celestia</a>
             </div>
         `;
-        
-        // Reset form after 5 seconds
-        setTimeout(() => {
-            form.innerHTML = originalHTML;
-            this.initFormHandling(); // Re-initialize handlers
-        }, 5000);
+        countdownContainer.style.textAlign = 'center';
     }
-    
-    // === NAVIGATION SYSTEM ===
-    initNavigationHandlers() {
-        // Mobile navigation toggle
-        if (this.navToggle) {
-            this.navToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.toggleNavigation();
-            });
-        }
+
+    setupSmoothScrolling() {
+        // Smooth scrolling for navigation links
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
         
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
+        navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const target = document.querySelector(targetId);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.getElementById('nav').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
                     
-                    // Close mobile nav if open
-                    if (this.isNavOpen) {
-                        this.toggleNavigation();
-                    }
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
-        
-        // Navigation scroll behavior
-        this.initNavbarScrollBehavior();
     }
-    
-    toggleNavigation() {
-        this.isNavOpen = !this.isNavOpen;
-        
-        if (this.navMenu) {
-            this.navMenu.style.display = this.isNavOpen ? 'flex' : 'none';
-        }
-        
-        // Animate hamburger menu
-        if (this.navToggle) {
-            const spans = this.navToggle.querySelectorAll('span');
-            spans.forEach((span, index) => {
-                if (this.isNavOpen) {
-                    if (index === 0) span.style.transform = 'rotate(45deg) translate(5px, 5px)';
-                    if (index === 1) span.style.opacity = '0';
-                    if (index === 2) span.style.transform = 'rotate(-45deg) translate(7px, -6px)';
-                } else {
-                    span.style.transform = '';
-                    span.style.opacity = '';
+
+    setupScrollAnimations() {
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '-50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
                 }
             });
-        }
-    }
-    
-    initNavbarScrollBehavior() {
-        let lastScrollTop = 0;
-        let ticking = false;
+        }, observerOptions);
+
+        // Observe elements for animation
+        const elementsToAnimate = document.querySelectorAll(
+            '.countdown-card, .feature-card, .marketing-content, .cta-content'
+        );
         
-        const handleNavScroll = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const nav = document.querySelector('.nav');
+        elementsToAnimate.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            observer.observe(el);
+        });
+
+        // Add animate-in styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-in {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setupNavigation() {
+        const nav = document.getElementById('nav');
+        let lastScrollY = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
             
-            if (!nav) return;
-            
-            // Hide/show navigation based on scroll direction
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Change nav appearance based on scroll
+            if (currentScrollY > 100) {
+                nav.style.background = 'rgba(252, 252, 249, 0.95)';
+                nav.style.boxShadow = '0 1px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.background = 'rgba(252, 252, 249, 0.8)';
+                nav.style.boxShadow = 'none';
+            }
+
+            // Hide/show nav on scroll (Apple-style)
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
                 nav.style.transform = 'translateY(-100%)';
             } else {
                 nav.style.transform = 'translateY(0)';
             }
             
-            // Adjust background opacity
-            const opacity = Math.min(scrollTop / 100, 1);
-            nav.style.background = `rgba(255, 255, 255, ${0.1 + opacity * 0.15})`;
-            nav.style.backdropFilter = `blur(${20 + opacity * 20}px)`;
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-            ticking = false;
-        };
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(handleNavScroll);
-                ticking = true;
-            }
+            lastScrollY = currentScrollY;
         });
     }
-    
-    // === SCROLL ANIMATIONS ===
-    initScrollAnimations() {
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const fadeInObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    fadeInObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            fadeInObserver.observe(el);
-        });
-        
-        this.observers.push(fadeInObserver);
-        
-        // Parallax effects
-        this.initParallaxEffects();
-        
-        // Advanced scroll-triggered animations
-        this.initScrollTriggeredAnimations();
-    }
-    
-    initParallaxEffects() {
-        const parallaxElements = document.querySelectorAll('.glass-element, .visual-element');
-        
-        let ticking = false;
-        const handleParallax = () => {
-            const scrolled = window.pageYOffset;
-            
-            parallaxElements.forEach((element, index) => {
-                const speed = 0.1 + (index * 0.05);
-                const yPos = -(scrolled * speed);
-                element.style.transform = `translateY(${yPos}px) rotate(${yPos * 0.1}deg)`;
-            });
-            
-            ticking = false;
-        };
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(handleParallax);
-                ticking = true;
-            }
-        });
-    }
-    
-    initScrollTriggeredAnimations() {
-        // Counter animation for stats
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.animateCounter(entry.target);
-                    counterObserver.unobserve(entry.target);
-                }
-            });
-        });
-        
-        document.querySelectorAll('.stat-number').forEach(stat => {
-            counterObserver.observe(stat);
-        });
-        
-        this.observers.push(counterObserver);
-    }
-    
-    animateCounter(element) {
-        const text = element.textContent;
-        const isNumber = /^\d+$/.test(text);
-        
-        if (isNumber) {
-            const target = parseInt(text);
-            let current = 0;
-            const increment = target / 50;
-            
-            const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    element.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    element.textContent = target;
-                }
-            };
-            
-            updateCounter();
+
+    setupNotificationForm() {
+        const form = document.getElementById('notify-form');
+        const emailInput = document.getElementById('email-input');
+        const notifyBtn = document.getElementById('notify-btn');
+        const btnText = notifyBtn.querySelector('.btn-text');
+        const btnLoader = notifyBtn.querySelector('.btn-loader');
+        const successMessage = document.getElementById('success-message');
+
+        // Ensure form elements are properly initialized
+        if (!form || !emailInput || !notifyBtn) {
+            console.error('Form elements not found');
+            return;
         }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            if (!this.isValidEmail(email)) {
+                this.showFormError('Please enter a valid email address');
+                return;
+            }
+
+            // Show loading state
+            btnText.textContent = 'Sending...';
+            btnLoader.classList.remove('hidden');
+            notifyBtn.disabled = true;
+            notifyBtn.style.opacity = '0.8';
+
+            // Simulate API call
+            await this.delay(1500);
+
+            // Show success state
+            btnLoader.classList.add('hidden');
+            
+            // Animate form out
+            form.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            form.style.opacity = '0';
+            form.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+                
+                // Animate success message in
+                successMessage.style.opacity = '0';
+                successMessage.style.transform = 'translateY(20px)';
+                successMessage.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                
+                requestAnimationFrame(() => {
+                    successMessage.style.opacity = '1';
+                    successMessage.style.transform = 'translateY(0)';
+                });
+                
+                // Store email (in real app, would send to backend)
+                console.log('Email registered:', email);
+                
+                // Add celebration effect
+                this.createCelebrationEffect();
+            }, 500);
+        });
+
+        // Enhanced input interactions
+        emailInput.addEventListener('focus', () => {
+            emailInput.style.borderColor = 'var(--color-primary)';
+            emailInput.style.transform = 'translateY(-1px)';
+        });
+
+        emailInput.addEventListener('blur', () => {
+            if (!emailInput.value) {
+                emailInput.style.borderColor = 'var(--color-border)';
+            }
+            emailInput.style.transform = 'translateY(0)';
+        });
+
+        // Real-time validation
+        emailInput.addEventListener('input', () => {
+            const email = emailInput.value.trim();
+            if (email && !this.isValidEmail(email)) {
+                emailInput.style.borderColor = 'var(--color-error)';
+            } else if (email) {
+                emailInput.style.borderColor = 'var(--color-success)';
+            } else {
+                emailInput.style.borderColor = 'var(--color-border)';
+            }
+        });
     }
-    
-    // Simplified Apple-style interactions
-    initAppleStyleInteractions() {
-        // Button hover effects
-        document.querySelectorAll('.btn').forEach(btn => {
+
+    setupMicroInteractions() {
+        // Enhanced button hover effects
+        document.querySelectorAll('.btn-primary, .nav-link-cta').forEach(btn => {
             btn.addEventListener('mouseenter', () => {
-                btn.style.transform = 'translateY(-2px) scale(1.02)';
+                if (!btn.disabled) {
+                    btn.style.transform = 'translateY(-2px) scale(1.02)';
+                    btn.style.boxShadow = '0 8px 25px rgba(33, 128, 141, 0.3)';
+                }
             });
             
             btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translateY(0) scale(1)';
+                if (!btn.disabled) {
+                    btn.style.transform = 'translateY(0) scale(1)';
+                    btn.style.boxShadow = 'none';
+                }
             });
         });
-        
-        // Card interactions
-        document.querySelectorAll('.feature-card, .glass-card').forEach(card => {
+
+        // Feature card interactions
+        document.querySelectorAll('.feature-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-8px) scale(1.02)';
+                card.style.transform = 'translateY(-8px)';
+                card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)';
             });
             
             card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
             });
         });
-    }
-    
-    // Simplified glassmorphism effects
-    initGlassmorphismEffects() {
-        const glassElements = document.querySelectorAll('.glass-panel');
-        
-        glassElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.style.background = 'rgba(255, 255, 255, 0.35)';
+
+        // Countdown card hover effect
+        const countdownCard = document.querySelector('.countdown-card');
+        if (countdownCard) {
+            countdownCard.addEventListener('mouseenter', () => {
+                countdownCard.style.transform = 'translateY(-6px) scale(1.02)';
+                countdownCard.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)';
             });
             
-            element.addEventListener('mouseleave', () => {
-                element.style.background = 'rgba(255, 255, 255, 0.25)';
+            countdownCard.addEventListener('mouseleave', () => {
+                countdownCard.style.transform = 'translateY(0) scale(1)';
+                countdownCard.style.boxShadow = 'var(--shadow-lg)';
             });
-        });
-    }
-    
-    // Simplified performance optimizations
-    initPerformanceOptimizations() {
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                this.handleResize();
-            }, 250);
-        });
-    }
-    
-    // Simplified accessibility features
-    initAccessibilityFeatures() {
-        // Basic keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                // Focus management handled by browser
-            }
-        });
-    }
-    
-    // Responsive handling
-    initResponsiveHandlers() {
-        this.handleResize();
-    }
-    
-    handleResize() {
-        const width = window.innerWidth;
-        
-        // Mobile navigation handling
-        if (width > 768 && this.isNavOpen) {
-            this.toggleNavigation();
-        }
-        
-        // Responsive countdown layout
-        const countdown = document.querySelector('.glass-countdown');
-        if (countdown) {
-            if (width < 480) {
-                countdown.style.gridTemplateColumns = '1fr';
-                countdown.style.maxWidth = '200px';
-            } else if (width < 768) {
-                countdown.style.gridTemplateColumns = 'repeat(2, 1fr)';
-                countdown.style.maxWidth = '300px';
-            } else {
-                countdown.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                countdown.style.maxWidth = '500px';
-            }
         }
     }
-    
-    // Advanced animations with CSS injection
-    initAdvancedAnimations() {
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes countdownRipple {
-                to {
-                    transform: translate(-50%, -50%) scale(20);
-                    opacity: 0;
-                }
-            }
-            
-            @keyframes confettiFall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-            
-            @keyframes successBounce {
-                0% { transform: scale(0) rotate(0deg); }
-                50% { transform: scale(1.3) rotate(180deg); }
-                100% { transform: scale(1) rotate(360deg); }
-            }
-            
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-8px); }
-                75% { transform: translateX(8px); }
-            }
-            
-            .modal-open .hero,
-            .modal-open .features,
-            .modal-open .about,
-            .modal-open .contact,
-            .modal-open .footer {
-                filter: blur(3px) brightness(0.7);
-                transition: filter 0.3s ease;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    // Utility method for form errors
-    showFormError(form, message) {
-        const errorEl = document.createElement('div');
-        errorEl.className = 'form-error';
-        errorEl.style.cssText = `
-            color: var(--color-red);
-            text-align: center;
-            margin-top: var(--space-4);
-            padding: var(--space-3);
-            background: rgba(255, 59, 48, 0.1);
-            border-radius: var(--radius-base);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-        `;
-        errorEl.textContent = message;
+
+    createBackgroundAnimation() {
+        const bgBlur = document.getElementById('bg-blur');
         
-        form.appendChild(errorEl);
+        // Subtle parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.3;
+            if (bgBlur) {
+                bgBlur.style.transform = `translate3d(0, ${rate}px, 0)`;
+            }
+        });
+    }
+
+    createCelebrationEffect() {
+        // Create subtle sparkle effect after email signup
+        const successMessage = document.getElementById('success-message');
+        const rect = successMessage.getBoundingClientRect();
+        
+        for (let i = 0; i < 8; i++) {
+            setTimeout(() => {
+                this.createSparkle(
+                    rect.left + rect.width / 2 + (Math.random() - 0.5) * 200,
+                    rect.top + rect.height / 2 + (Math.random() - 0.5) * 100
+                );
+            }, i * 150);
+        }
+    }
+
+    createSparkle(x, y) {
+        const sparkle = document.createElement('div');
+        sparkle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: 6px;
+            height: 6px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 1;
+            transform: scale(0);
+            transition: all 1s ease-out;
+        `;
+        
+        document.body.appendChild(sparkle);
+        
+        requestAnimationFrame(() => {
+            sparkle.style.opacity = '0';
+            sparkle.style.transform = 'scale(1.5) translateY(-40px)';
+        });
         
         setTimeout(() => {
-            if (errorEl.parentElement) {
-                errorEl.remove();
+            if (sparkle.parentNode) {
+                document.body.removeChild(sparkle);
             }
-        }, 5000);
+        }, 1000);
     }
-    
-    // Clean up on destroy
-    destroy() {
-        this.observers.forEach(observer => observer.disconnect());
-        if (this.countdownInterval) {
-            clearInterval(this.countdownInterval);
+
+    handleScroll() {
+        this.scrollY = window.pageYOffset;
+        this.updateNavigationState();
+    }
+
+    updateNavigationState() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        
+        let currentSection = '';
+        const offset = 150;
+        
+        sections.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            const sectionHeight = section.offsetHeight;
+            
+            if (sectionTop <= offset && sectionTop + sectionHeight > offset) {
+                currentSection = section.id;
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkHref = link.getAttribute('href').substring(1);
+            if (linkHref === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    handleResize() {
+        // Recalculate animations on resize
+        this.updateNavigationState();
+    }
+
+    refreshCountdown() {
+        // Easter egg: refresh countdown with animation
+        const countdownNumbers = document.querySelectorAll('.countdown-number');
+        countdownNumbers.forEach((num, index) => {
+            setTimeout(() => {
+                num.style.transform = 'rotateX(360deg)';
+                setTimeout(() => {
+                    num.style.transform = 'rotateX(0deg)';
+                }, 300);
+            }, index * 100);
+        });
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    showFormError(message) {
+        const emailInput = document.getElementById('email-input');
+        emailInput.style.borderColor = 'var(--color-error)';
+        emailInput.style.boxShadow = '0 0 0 3px rgba(192, 21, 47, 0.1)';
+        
+        // Create error message element
+        let errorMsg = document.getElementById('error-message');
+        if (!errorMsg) {
+            errorMsg = document.createElement('div');
+            errorMsg.id = 'error-message';
+            errorMsg.style.cssText = `
+                color: var(--color-error);
+                font-size: 14px;
+                margin-top: 8px;
+                text-align: center;
+            `;
+            emailInput.parentElement.appendChild(errorMsg);
         }
+        
+        errorMsg.textContent = message;
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+            emailInput.style.borderColor = 'var(--color-border)';
+            emailInput.style.boxShadow = 'none';
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+        }, 3000);
+    }
+
+    // Utility functions
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    debounce(func, delay) {
+        let debounceTimer;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
-// Initialize Celestia App when DOM is ready
+// Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Add initial loading animation
-    document.body.style.opacity = '0';
-    document.body.style.transform = 'scale(0.98)';
+    const app = new CelestiaApp();
     
-    setTimeout(() => {
-        document.body.style.transition = 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)';
-        document.body.style.opacity = '1';
-        document.body.style.transform = 'scale(1)';
+    // Add CSS for active navigation state and other enhancements
+    const style = document.createElement('style');
+    style.textContent = `
+        .nav-link.active {
+            color: var(--color-primary) !important;
+            font-weight: var(--font-weight-semibold);
+        }
         
-        // Initialize the main app
-        window.celestiaApp = new CelestiaApp();
-        window.celestiaApp.init();
+        .launch-message {
+            padding: var(--space-32);
+        }
         
-        console.log('✨ Celestia - The future of digital experiences');
-        console.log('🚀 Made with ♥ by Kousho');
-        console.log('🌟 Launching November 1, 2025');
-    }, 100);
+        .launch-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-16);
+            animation: bounce 2s infinite;
+        }
+        
+        .launch-title {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-12);
+            color: var(--color-text);
+        }
+        
+        .launch-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-24);
+        }
+        
+        .launch-btn {
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .countdown-number {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .form-input {
+            transition: all 0.3s ease-out;
+        }
+        
+        .btn-primary {
+            transition: all 0.3s ease-out;
+        }
+        
+        .nav {
+            transition: all 0.3s ease-out;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Console message for developers (Apple-style)
+    console.log(`
+        🍎 Celestia - Premium announcement website
+        
+        Built with Apple's design philosophy:
+        ✓ Clean, minimal interface
+        ✓ Smooth animations & transitions
+        ✓ Premium micro-interactions
+        ✓ Responsive across all devices
+        ✓ Accessibility focused
+        
+        Keyboard shortcuts:
+        • Cmd/Ctrl + R: Refresh countdown
+        • Cmd/Ctrl + N: Focus email input
+        
+        Designed by Koushoo with ❤️
+    `);
 });
 
-// Service Worker registration for future PWA capabilities
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        console.log('🔧 Service Worker support detected - Ready for PWA');
-    });
-}
+// Prevent zoom on double tap for better mobile experience
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+    const now = new Date().getTime();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
 
-// Performance monitoring
-if ('performance' in window) {
-    window.addEventListener('load', () => {
-        const perfData = performance.getEntriesByType('navigation')[0];
-        console.log(`⚡ Page loaded in ${Math.round(perfData.loadEventEnd - perfData.fetchStart)}ms`);
+// Add performance optimizations
+if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+        console.log('Celestia app initialized successfully');
     });
-}
-
-// Export for potential module use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CelestiaApp;
 }
