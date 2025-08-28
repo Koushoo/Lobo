@@ -3,79 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestia - The future of digital innovation</title>
+    <title>Celestia - Reimagined. Redesigned. Revolutionary.</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-logo">Celestia</div>
-            <div class="loading-spinner"></div>
-        </div>
-    </div>
-
+<body class="theme-dark">
     <!-- Navigation -->
-    <nav class="nav" id="nav">
+    <nav class="nav">
         <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">Celestia</span>
-            </div>
-            <div class="nav-menu">
-                <a href="#overview" class="nav-link">Overview</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#specs" class="nav-link">Tech Specs</a>
-                <a href="#notify" class="nav-link nav-link-cta">Notify Me</a>
-            </div>
+            <div class="nav-brand">Celestia</div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                </svg>
+                <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                </svg>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-container">
-            <h1 class="hero-title">
-                <span class="hero-title-main">Reimagined.</span>
-                <span class="hero-title-main">Redesigned.</span>
-                <span class="hero-title-main">Revolutionary.</span>
-            </h1>
-            <p class="hero-subtitle">The future of digital innovation</p>
-            <div class="hero-date">Coming October 1st</div>
-        </div>
-        <div class="hero-visual">
-            <div class="hero-product-preview">
-                <div class="product-glow"></div>
-                <div class="product-placeholder">
-                    <div class="product-icon">✨</div>
-                    <div class="product-name">Celestia</div>
-                </div>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-text">Coming October 1st</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Countdown Section -->
-    <section class="countdown-section" id="overview">
-        <div class="section-container">
-            <h2 class="section-title">Something extraordinary is coming</h2>
-            <div class="countdown-container">
-                <div class="countdown-card">
-                    <div class="countdown-grid">
-                        <div class="countdown-item">
-                            <div class="countdown-number" id="days">000</div>
-                            <div class="countdown-label">Days</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-number" id="hours">00</div>
-                            <div class="countdown-label">Hours</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-number" id="minutes">00</div>
-                            <div class="countdown-label">Minutes</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-number" id="seconds">00</div>
-                            <div class="countdown-label">Seconds</div>
-                        </div>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Reimagined.</span>
+                <span class="hero-title-line">Redesigned.</span>
+                <span class="hero-title-line">Revolutionary.</span>
+            </h1>
+            <p class="hero-subtitle">Something extraordinary is coming October 1st</p>
+            
+            <!-- Glass Countdown Timer -->
+            <div class="countdown-glass-card">
+                <div class="countdown-header">
+                    <h2 class="countdown-title">Launch Countdown</h2>
+                </div>
+                <div class="countdown-timer" id="countdown">
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="days">000</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="hours">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="minutes">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="seconds">00</span>
+                        <span class="countdown-label">Seconds</span>
                     </div>
                 </div>
             </div>
@@ -83,9 +68,13 @@
     </section>
 
     <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="section-container">
-            <h2 class="section-title">Experience the next generation</h2>
+    <section class="features">
+        <div class="container">
+            <div class="features-header">
+                <h2 class="features-title">Stay ahead of tomorrow</h2>
+                <p class="features-subtitle">Be among the first to experience the next generation of digital innovation. Celestia represents a new standard in design, functionality, and user experience.</p>
+            </div>
+            
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">✨</div>
@@ -108,82 +97,63 @@
                     <p class="feature-description">Excellence in every pixel, every interaction</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Marketing Section -->
-    <section class="marketing-section" id="specs">
-        <div class="section-container">
-            <div class="marketing-content">
-                <h2 class="marketing-title">Stay ahead of tomorrow</h2>
-                <p class="marketing-subtitle">Be among the first to experience the next generation of digital innovation. Celestia represents a new standard in design, functionality, and user experience.</p>
-                <div class="marketing-benefits">
-                    <div class="benefit-item">
-                        <div class="benefit-check">✓</div>
-                        <span>Revolutionary user interface design</span>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-check">✓</div>
-                        <span>Advanced performance optimization</span>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-check">✓</div>
-                        <span>Seamless cross-platform experience</span>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-check">✓</div>
-                        <span>Premium support and updates</span>
-                    </div>
+            
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <svg class="benefit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                    <span>Revolutionary user interface design</span>
+                </div>
+                <div class="benefit-item">
+                    <svg class="benefit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                    <span>Advanced performance optimization</span>
+                </div>
+                <div class="benefit-item">
+                    <svg class="benefit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                    <span>Seamless cross-platform experience</span>
+                </div>
+                <div class="benefit-item">
+                    <svg class="benefit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                    <span>Premium support and updates</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section" id="notify">
-        <div class="section-container">
-            <div class="cta-content">
-                <h2 class="cta-title">Get notified when Celestia launches</h2>
-                <p class="cta-subtitle">Be the first to experience the future</p>
-                <form class="notify-form" id="notify-form">
-                    <div class="form-group">
-                        <input type="email" class="form-input" placeholder="Enter your email" required id="email-input">
-                        <button type="submit" class="btn-primary" id="notify-btn">
-                            <span class="btn-text">Notify Me</span>
-                            <div class="btn-loader hidden"></div>
-                        </button>
-                    </div>
-                    <p class="form-note">We'll send you a notification when Celestia launches. No spam, promise.</p>
+    <!-- Notification Section -->
+    <section class="notification-section">
+        <div class="container">
+            <div class="notification-card">
+                <h2 class="notification-title">Get Notified</h2>
+                <p class="notification-subtitle">Be the first to know when Celestia launches</p>
+                <form class="notification-form" id="notificationForm">
+                    <input type="email" class="notification-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="notification-btn">Notify Me</button>
                 </form>
-                <div class="success-message hidden" id="success-message">
-                    <div class="success-icon">✓</div>
-                    <div class="success-text">Thank you! We'll notify you when Celestia launches.</div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-logo">Celestia</div>
-                <div class="footer-links">
-                    <a href="#" target="_blank" class="footer-link">Privacy</a>
-                    <a href="#" target="_blank" class="footer-link">Terms</a>
-                    <a href="#" target="_blank" class="footer-link">Support</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="footer-credit">Designed by <span class="footer-author">Koushoo</span></p>
-                <p class="footer-copyright">© 2025 Celestia. All rights reserved.</p>
-            </div>
+        <div class="container">
+            <p class="footer-text">Made by <span class="footer-author">Koushoo</span></p>
+            <p class="footer-copyright">© 2025 Celestia. The future of digital innovation.</p>
         </div>
     </footer>
 
-    <!-- Background Elements -->
-    <div class="bg-gradient"></div>
-    <div class="bg-blur" id="bg-blur"></div>
+    <!-- Particle System -->
+    <div class="particles-container" id="particlesContainer"></div>
+    
+    <!-- Mouse Trail -->
+    <div class="mouse-trail" id="mouseTrail"></div>
 
     <script src="app.js"></script>
 </body>
