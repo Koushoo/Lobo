@@ -3,80 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestia - The Future of Digital Experiences</title>
-    <meta name="description" content="Celestia - Revolutionary interface connecting your digital world. Coming November 1, 2025.">
-    <meta name="keywords" content="celestia, digital experiences, interface, technology, innovation">
-    <meta name="author" content="Kousho">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Celestia - The future of digital innovation</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-image"></div>
-    <!-- Skip Links for Accessibility -->
-    <a href="#main-content" class="sr-only">Skip to main content</a>
-    
-    <!-- Background Image -->
-    <div class="bg-image" role="img" aria-label="Blue abstract gradient background"></div>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">Celestia</div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
 
-    <!-- Navigation with Glass Effect -->
-    <nav class="nav glass-nav" role="navigation" aria-label="Main navigation">
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
         <div class="nav-container">
-            <div class="nav-brand">
-                <span class="nav-logo">✨ Celestia</span>
+            <div class="nav-logo">
+                <span class="logo-text">Celestia</span>
             </div>
-            <div class="nav-menu" id="navMenu">
+            <div class="nav-menu">
+                <a href="#overview" class="nav-link">Overview</a>
                 <a href="#features" class="nav-link">Features</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <button class="btn btn--primary btn--sm" id="notifyBtnNav">Get Notified</button>
+                <a href="#specs" class="nav-link">Tech Specs</a>
+                <a href="#notify" class="nav-link nav-link-cta">Notify Me</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
 
-    <!-- Hero Section with Glass Panel -->
-    <section class="hero" role="banner" id="main-content">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
         <div class="hero-container">
-            <div class="glass-panel hero-glass">
-                <div class="hero-content">
-                    <h1 class="hero-title fade-in">Celestia</h1>
-                    <p class="hero-tagline fade-in">The future of digital experiences</p>
-                    <p class="hero-description fade-in">Revolutionary interface connecting your digital world</p>
-                    
-                    <!-- Countdown Timer with Glass -->
-                    <div class="countdown-container fade-in">
-                        <h2 class="countdown-label">Launching Soon</h2>
-                        <div class="countdown glass-countdown" id="countdown">
-                            <div class="countdown-item glass-item">
-                                <span class="countdown-value" id="days">0</span>
-                                <span class="countdown-unit">Days</span>
-                            </div>
-                            <div class="countdown-item glass-item">
-                                <span class="countdown-value" id="hours">0</span>
-                                <span class="countdown-unit">Hours</span>
-                            </div>
-                            <div class="countdown-item glass-item">
-                                <span class="countdown-value" id="minutes">0</span>
-                                <span class="countdown-unit">Minutes</span>
-                            </div>
-                            <div class="countdown-item glass-item">
-                                <span class="countdown-value" id="seconds">0</span>
-                                <span class="countdown-unit">Seconds</span>
-                            </div>
-                        </div>
-                    </div>
+            <h1 class="hero-title">
+                <span class="hero-title-main">Reimagined.</span>
+                <span class="hero-title-main">Redesigned.</span>
+                <span class="hero-title-main">Revolutionary.</span>
+            </h1>
+            <p class="hero-subtitle">The future of digital innovation</p>
+            <div class="hero-date">Coming October 1st</div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-product-preview">
+                <div class="product-glow"></div>
+                <div class="product-placeholder">
+                    <div class="product-icon">✨</div>
+                    <div class="product-name">Celestia</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Call to Action -->
-                    <div class="hero-cta fade-in">
-                        <button class="btn btn--primary btn--lg" id="notifyBtn">Get Notified</button>
-                        <button class="btn btn--outline btn--lg" id="learnMore">Learn More</button>
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="overview">
+        <div class="section-container">
+            <h2 class="section-title">Something extraordinary is coming</h2>
+            <div class="countdown-container">
+                <div class="countdown-card">
+                    <div class="countdown-grid">
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="days">000</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="hours">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="minutes">00</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="seconds">00</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,192 +83,107 @@
     </section>
 
     <!-- Features Section -->
-    <section class="features" role="main" id="features">
-        <div class="container">
-            <div class="glass-panel features-glass">
-                <div class="features-header fade-in">
-                    <h2 class="features-title">Revolutionary Features</h2>
-                    <p class="features-subtitle">Experience the next generation of digital interaction</p>
+    <section class="features-section" id="features">
+        <div class="section-container">
+            <h2 class="section-title">Experience the next generation</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Innovative Design</h3>
+                    <p class="feature-description">Crafted with precision and attention to every detail</p>
                 </div>
-                
-                <div class="features-grid">
-                    <div class="feature-card glass-card fade-in" data-delay="100">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17 7H22L19 2L16 7H19.5C19.5 10.59 16.59 13.5 13 13.5S6.5 10.59 6.5 7H9L6 2L3 7H8C8 11.42 11.58 15 16 15H17V20H15V22H21V20H19V15C20.1 15 21 14.1 21 13V10C21 8.9 20.1 8 19 8H17V7Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Seamless Integration</h3>
-                        <p class="feature-description">Connect all your digital services in one beautiful interface with unprecedented ease and efficiency.</p>
-                    </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Seamless Experience</h3>
+                    <p class="feature-description">Intuitive interactions that feel natural and effortless</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Future-Ready</h3>
+                    <p class="feature-description">Built for tomorrow's digital landscape</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">Premium Quality</h3>
+                    <p class="feature-description">Excellence in every pixel, every interaction</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="feature-card glass-card fade-in" data-delay="200">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Intelligent Automation</h3>
-                        <p class="feature-description">AI-powered workflows that adapt to your needs, learning from your preferences and optimizing your experience.</p>
+    <!-- Marketing Section -->
+    <section class="marketing-section" id="specs">
+        <div class="section-container">
+            <div class="marketing-content">
+                <h2 class="marketing-title">Stay ahead of tomorrow</h2>
+                <p class="marketing-subtitle">Be among the first to experience the next generation of digital innovation. Celestia represents a new standard in design, functionality, and user experience.</p>
+                <div class="marketing-benefits">
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Revolutionary user interface design</span>
                     </div>
-
-                    <div class="feature-card glass-card fade-in" data-delay="300">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.6 9.2,11.6V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,9.5V11.5H13.6V9.5C13.6,8.7 12.8,8.2 12,8.2Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Privacy First</h3>
-                        <p class="feature-description">Your data stays secure with end-to-end encryption and zero-knowledge architecture protecting your privacy.</p>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Advanced performance optimization</span>
                     </div>
-
-                    <div class="feature-card glass-card fade-in" data-delay="400">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Cross-Platform</h3>
-                        <p class="feature-description">Available on all your devices with perfect sync, ensuring seamless transitions between platforms.</p>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Seamless cross-platform experience</span>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Premium support and updates</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="glass-panel about-glass">
-                <div class="about-content fade-in">
-                    <h2 class="about-title">The Future is Here</h2>
-                    <div class="about-grid">
-                        <div class="about-text">
-                            <p>Celestia represents a paradigm shift in digital interaction. Our revolutionary platform combines cutting-edge AI, intuitive design, and uncompromising security to create experiences that feel magical.</p>
-                            <p>Built with meticulous attention to detail and inspired by the best of Apple's design philosophy, Celestia offers a glimpse into the future of human-computer interaction.</p>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <span class="stat-number">500+</span>
-                                    <span class="stat-label">Design Tokens</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">99.9%</span>
-                                    <span class="stat-label">Uptime</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">∞</span>
-                                    <span class="stat-label">Possibilities</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="about-visual">
-                            <div class="visual-element glass-element"></div>
-                            <div class="visual-element glass-element"></div>
-                            <div class="visual-element glass-element"></div>
-                        </div>
+    <!-- CTA Section -->
+    <section class="cta-section" id="notify">
+        <div class="section-container">
+            <div class="cta-content">
+                <h2 class="cta-title">Get notified when Celestia launches</h2>
+                <p class="cta-subtitle">Be the first to experience the future</p>
+                <form class="notify-form" id="notify-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Enter your email" required id="email-input">
+                        <button type="submit" class="btn-primary" id="notify-btn">
+                            <span class="btn-text">Notify Me</span>
+                            <div class="btn-loader hidden"></div>
+                        </button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="glass-panel contact-glass">
-                <div class="contact-content fade-in">
-                    <h2 class="contact-title">Stay Connected</h2>
-                    <p class="contact-subtitle">Be the first to experience the future</p>
-                    <form class="contact-form glass-form" id="contactForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email Address</label>
-                                <input type="email" id="email" name="email" class="form-control" required aria-describedby="email-help">
-                                <div id="email-help" class="form-help">We'll never share your email</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" id="name" name="name" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="interest" class="form-label">Interest</label>
-                            <select id="interest" name="interest" class="form-control">
-                                <option value="">Select your interest</option>
-                                <option value="personal">Personal Use</option>
-                                <option value="business">Business</option>
-                                <option value="enterprise">Enterprise</option>
-                                <option value="developer">Developer</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn--primary btn--full-width">Join the Waitlist</button>
-                    </form>
+                    <p class="form-note">We'll send you a notification when Celestia launches. No spam, promise.</p>
+                </form>
+                <div class="success-message hidden" id="success-message">
+                    <div class="success-icon">✓</div>
+                    <div class="success-text">Thank you! We'll notify you when Celestia launches.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="glass-panel footer-glass">
-                <div class="footer-content">
-                    <div class="footer-brand">
-                        <h3 class="footer-logo">✨ Celestia</h3>
-                        <p class="footer-tagline">The future of digital experiences</p>
-                    </div>
-                    <div class="footer-links">
-                        <div class="footer-section">
-                            <h4 class="footer-title">Product</h4>
-                            <a href="#features" class="footer-link">Features</a>
-                            <a href="#about" class="footer-link">About</a>
-                            <a href="#" class="footer-link">Pricing</a>
-                        </div>
-                        <div class="footer-section">
-                            <h4 class="footer-title">Company</h4>
-                            <a href="#" class="footer-link">Blog</a>
-                            <a href="#" class="footer-link">Careers</a>
-                            <a href="#contact" class="footer-link">Contact</a>
-                        </div>
-                        <div class="footer-section">
-                            <h4 class="footer-title">Legal</h4>
-                            <a href="#" class="footer-link">Privacy</a>
-                            <a href="#" class="footer-link">Terms</a>
-                            <a href="#" class="footer-link">Security</a>
-                        </div>
-                    </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">Celestia</div>
+                <div class="footer-links">
+                    <a href="#" target="_blank" class="footer-link">Privacy</a>
+                    <a href="#" target="_blank" class="footer-link">Terms</a>
+                    <a href="#" target="_blank" class="footer-link">Support</a>
                 </div>
-                <div class="footer-bottom">
-                    <p class="footer-copyright">Made with <span class="heart">♥</span> by <strong>Kousho</strong></p>
-                    <p class="footer-credits">&copy; 2025 Celestia. All rights reserved.</p>
-                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-credit">Designed by <span class="footer-author">Koushoo</span></p>
+                <p class="footer-copyright">© 2025 Celestia. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Notification Modal -->
-    <div class="modal hidden" id="notificationModal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
-        <div class="modal-backdrop" id="modalBackdrop"></div>
-        <div class="modal-content glass-modal">
-            <div class="modal-header">
-                <h3 id="modalTitle">Join the Future</h3>
-                <button class="modal-close" id="modalClose" aria-label="Close modal">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="modalDescription">Be among the first to experience Celestia when it launches on November 1, 2025.</p>
-                <form class="notification-form" id="notificationForm">
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Enter your email address" required aria-label="Email address for notifications">
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--full-width">Notify Me at Launch</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <!-- Background Elements -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blur" id="bg-blur"></div>
 
     <script src="app.js"></script>
 </body>
