@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestia - The future of digital innovation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">Celestia</div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Celestia</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#specs" class="nav-link">Tech Specs</a>
+                <a href="#notify" class="nav-link nav-link-cta">Notify Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">
+                <span class="hero-title-main">Reimagined.</span>
+                <span class="hero-title-main">Redesigned.</span>
+                <span class="hero-title-main">Revolutionary.</span>
+            </h1>
+            <p class="hero-subtitle">The future of digital innovation</p>
+            <div class="hero-date">Coming October 1st</div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-product-preview">
+                <div class="product-glow"></div>
+                <div class="product-placeholder">
+                    <div class="product-icon">✨</div>
+                    <div class="product-name">Celestia</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="overview">
+        <div class="section-container">
+            <h2 class="section-title">Something extraordinary is coming</h2>
+            <div class="countdown-container">
+                <div class="countdown-card">
+                    <div class="countdown-grid">
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="days">000</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="hours">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="minutes">00</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="seconds">00</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-container">
+            <h2 class="section-title">Experience the next generation</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Innovative Design</h3>
+                    <p class="feature-description">Crafted with precision and attention to every detail</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Seamless Experience</h3>
+                    <p class="feature-description">Intuitive interactions that feel natural and effortless</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Future-Ready</h3>
+                    <p class="feature-description">Built for tomorrow's digital landscape</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">Premium Quality</h3>
+                    <p class="feature-description">Excellence in every pixel, every interaction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketing Section -->
+    <section class="marketing-section" id="specs">
+        <div class="section-container">
+            <div class="marketing-content">
+                <h2 class="marketing-title">Stay ahead of tomorrow</h2>
+                <p class="marketing-subtitle">Be among the first to experience the next generation of digital innovation. Celestia represents a new standard in design, functionality, and user experience.</p>
+                <div class="marketing-benefits">
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Revolutionary user interface design</span>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Advanced performance optimization</span>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Seamless cross-platform experience</span>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Premium support and updates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="notify">
+        <div class="section-container">
+            <div class="cta-content">
+                <h2 class="cta-title">Get notified when Celestia launches</h2>
+                <p class="cta-subtitle">Be the first to experience the future</p>
+                <form class="notify-form" id="notify-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Enter your email" required id="email-input">
+                        <button type="submit" class="btn-primary" id="notify-btn">
+                            <span class="btn-text">Notify Me</span>
+                            <div class="btn-loader hidden"></div>
+                        </button>
+                    </div>
+                    <p class="form-note">We'll send you a notification when Celestia launches. No spam, promise.</p>
+                </form>
+                <div class="success-message hidden" id="success-message">
+                    <div class="success-icon">✓</div>
+                    <div class="success-text">Thank you! We'll notify you when Celestia launches.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">Celestia</div>
+                <div class="footer-links">
+                    <a href="#" target="_blank" class="footer-link">Privacy</a>
+                    <a href="#" target="_blank" class="footer-link">Terms</a>
+                    <a href="#" target="_blank" class="footer-link">Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-credit">Designed by <span class="footer-author">Koushoo</span></p>
+                <p class="footer-copyright">© 2025 Celestia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Background Elements -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blur" id="bg-blur"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
