@@ -941,18 +941,21 @@
         .feature-icon {
             font-size: 3rem;
             margin-bottom: var(--space-lg);
-            display: block;
+            display: flex;
+            justify-content: center;
         }
         .feature-icon svg {
             width: 48px;
             height: 48px;
+            stroke: currentColor;
             stroke-width: 1.5;
-            color: var(--text-primary);
+            color: var(--accent);
+            fill: none;
             transition: color 0.3s ease-in-out;
         }
-        .feature-icon.starburst svg {
-            color: var(--accent);
-            stroke-width: 2;
+        .feature-icon.filled svg {
+            fill: currentColor;
+            stroke: none;
         }
         .feature-title {
             font-family: var(--font-display);
@@ -1111,10 +1114,32 @@
         .footer-text {
             color: var(--text-secondary);
             margin-bottom: var(--space-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .footer-author {
             color: var(--accent);
             font-weight: 600;
+        }
+        .instagram-link {
+            display: inline-block;
+            margin-left: 8px;
+            transform-origin: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .instagram-link:hover {
+            transform: scale(1.1);
+        }
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: var(--text-primary);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease-in-out;
         }
         .footer-copyright {
             color: var(--text-secondary);
@@ -1312,10 +1337,10 @@
         <div class="nav-container">
             <div class="nav-brand">
                 <div class="nav-logo">
-                    <svg class="cloud-light" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="cloud-light" id="cloudLightLogo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a5 5 0 0 0-5 5 4.5 4.5 0 0 0-.5 0 7 7 0 0 0 0 14h10a5 5 0 0 0 0-10 4.5 4.5 0 0 0 0-9 4.5 4.5 0 0 0-4.5-4.5"></path>
                     </svg>
-                    <svg class="cloud-dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="cloud-dark" id="cloudDarkLogo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a5 5 0 0 0-5 5 4.5 4.5 0 0 0-.5 0 7 7 0 0 0 0 14h10a5 5 0 0 0 0-10 4.5 4.5 0 0 0 0-9 4.5 4.5 0 0 0-4.5-4.5"></path>
                     </svg>
                 </div>
@@ -1389,9 +1414,10 @@
                 <div class="feature-card">
                     <div class="feature-content">
                         <div>
-                            <div class="feature-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            <div class="feature-icon filled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="none" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0 0 20v-3a7 7 0 0 1 0-14z"></path>
+                                    <path d="M12 2a10 10 0 0 1 0 20v-3a7 7 0 0 0 0-14z"></path>
                                 </svg>
                             </div>
                             <h3 class="feature-title">Innovative Design</h3>
@@ -1404,10 +1430,10 @@
                 <div class="feature-card">
                     <div class="feature-content">
                         <div>
-                            <div class="feature-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M13.5 10H10V3L14 1L13.5 10Z"></path>
-                                    <path d="M10.5 14H14V21L10 23L10.5 14Z"></path>
+                            <div class="feature-icon filled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="none" fill="currentColor">
+                                    <path d="M13 2a1 1 0 0 0-1 1v6.586l-2.707-2.707a1 1 0 0 0-1.414 1.414l3.707 3.707a1 1 0 0 0 1.414 0l3.707-3.707a1 1 0 0 0-1.414-1.414L13 9.586V3a1 1 0 0 0-1-1z"></path>
+                                    <path d="M11 22a1 1 0 0 0 1-1v-6.586l2.707 2.707a1 1 0 0 0 1.414-1.414l-3.707-3.707a1 1 0 0 0-1.414 0l-3.707 3.707a1 1 0 0 0 1.414 1.414L11 15.414V21a1 1 0 0 0 1 1z"></path>
                                 </svg>
                             </div>
                             <h3 class="feature-title">Seamless Experience</h3>
@@ -1420,9 +1446,9 @@
                 <div class="feature-card">
                     <div class="feature-content">
                         <div>
-                            <div class="feature-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="starburst">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            <div class="feature-icon filled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="none" fill="currentColor">
+                                    <path d="M12 2c-.2 0-.4.1-.5.3l-2 4a1 1 0 0 1-.8.4H4.5a1 1 0 0 0-.5.2c-.4.2-.6.7-.4 1.2l2.3 5a1 1 0 0 1 0 1l-2.3 5c-.2.5 0 1-.4 1.2a1 1 0 0 0 .5.2H8.7c.3 0 .6.2.8.4l2 4c.1.2.3.3.5.3s.4-.1.5-.3l2-4c.2-.2.5-.4.8-.4h4.2c.5 0 .9-.3 1.1-.7.2-.4.1-.9-.2-1.3l-2.3-5a1 1 0 0 1 0-1l2.3-5c.3-.4.4-.9.2-1.3a1 1 0 0 0-1.1-.7h-4.2c-.3 0-.6-.2-.8-.4l-2-4c-.1-.2-.3-.3-.5-.3z"></path>
                                 </svg>
                             </div>
                             <h3 class="feature-title">Future-Ready</h3>
@@ -1435,9 +1461,10 @@
                 <div class="feature-card">
                     <div class="feature-content">
                         <div>
-                            <div class="feature-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 8l-9 9-9-9"></path>
+                            <div class="feature-icon filled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="none" fill="currentColor">
+                                    <path d="M12 1L5 8h14zm0 22L5 16h14z"></path>
+                                    <path d="M1 12h22M1 12h22"></path>
                                 </svg>
                             </div>
                             <h3 class="feature-title">Premium Quality</h3>
@@ -1496,7 +1523,16 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">Made by <span class="footer-author">Koushoo</span></p>
+            <p class="footer-text">
+                Made by <span class="footer-author">Koushoo</span>
+                <a href="https://www.instagram.com/koushoxd" target="_blank" class="instagram-link" aria-label="Follow Koushoo on Instagram">
+                    <svg id="instagramIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+            </p>
             <p class="footer-copyright">© 2025 Celestia. The future of digital innovation.</p>
         </div>
     </footer>
@@ -1593,7 +1629,17 @@
 
                 this.body.className = `theme-${theme}`;
                 localStorage.setItem('celestia-theme', theme);
-
+                
+                // Update logo color based on theme
+                const instagramIcon = document.getElementById('instagramIcon');
+                if (instagramIcon) {
+                    if (theme === 'dark') {
+                        instagramIcon.style.color = '#ffffff'; // Set color for dark mode
+                    } else {
+                        instagramIcon.style.color = '#1d1d1f'; // Set color for light mode
+                    }
+                }
+                
                 // Update particles color based on theme
                 this.updateParticlesColor();
 
