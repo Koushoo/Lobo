@@ -1507,7 +1507,7 @@
     <!-- Notification Section -->
     <section class="notification-section">
         <div class="container">
-            <div class="notification-card">
+            <div class="notification-card" id="notificationCard">
                 <h2 class="notification-title">Get Notified</h2>
                 <p class="notification-subtitle">Be the first to know when Celestia launches</p>
                 <form class="notification-form" id="notificationForm">
@@ -1523,7 +1523,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">
+            <p class="footer-text" id="footerText">
                 Made by <span class="footer-author">Koushoo</span>
                 <a href="https://www.instagram.com/koushoxd" target="_blank" class="instagram-link" aria-label="Follow Koushoo on Instagram">
                     <svg id="instagramIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1533,7 +1533,7 @@
                     </svg>
                 </a>
             </p>
-            <p class="footer-copyright">© 2025 Celestia. The future of digital innovation.</p>
+            <p class="footer-copyright" id="footerCopyright">© 2025 Celestia. The future of digital innovation.</p>
         </div>
     </footer>
 
@@ -2125,6 +2125,31 @@
                         toggleActions: "play none none reverse"
                     }
                 });
+
+                // Animate footer elements
+                gsap.from("#footerText", {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: "footer",
+                        start: "top 95%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+                gsap.from("#footerCopyright", {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    delay: 0.2,
+                    scrollTrigger: {
+                        trigger: "footer",
+                        start: "top 95%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
             }
             
             handleScroll() {
@@ -2149,6 +2174,15 @@
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
             const app = new CelestiaApp();
+            
+            // Add a subtle floating animation to the notification card
+            gsap.to("#notificationCard", {
+                y: -10,
+                duration: 2.5,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1
+            });
         });
 
         // Prevent right-click context menu for cleaner experience
