@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Kousho - Socials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-1: #8B5CF6; /* Violet */
+            --color-2: #EC4899; /* Pink */
+            --color-3: #3B82F6; /* Blue */
+            --color-4: #10B981; /* Green */
+            --color-5: #F59E0B; /* Amber */
+        }
+
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark theme variables (default) */
+        .dark-theme {
+            --bg-primary: #111827; /* Darker blue/grey for better contrast */
+            --text-primary: #A1A1AA;
+            --text-headings: #ffffff;
+            --header-bg: rgba(17, 24, 39, 0.7);
+            --border-color: #27272A;
+            --card-bg: #18181b;
+            --button-hover-bg: #27272A;
+        }
+        
+        /* Light theme variables */
+        .light-theme {
+            --bg-primary: #e0e5ec; /* Light grey for neumorphism */
+            --text-primary: #3f3f46;
+            --text-headings: #18181b;
+            --header-bg: rgba(224, 229, 236, 0.7);
+            --border-color: #e4e4e7;
+            --card-bg: #ffffff;
+            --button-hover-bg: #f4f4f5;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .text-headings { color: var(--text-headings); }
+        .border-primary { border-color: var(--border-color); }
+        .bg-card { background-color: var(--card-bg); }
+        .hover\:bg-button-hover:hover { background-color: var(--button-hover-bg); }
+
+        .header-scrolled {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom-width: 1px;
+            border-color: var(--border-color);
+        }
+        
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(1rem); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            animation-delay: var(--animation-delay, 0s);
+            opacity: 0;
+        }
+
+        /* Animation for background blobs */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
+        /* Neumorphic + Glassmorphism Card Styles */
+        .social-card {
+            transition: all 0.3s ease-out;
+            border-radius: 1.5rem; /* 24px */
+        }
+
+        .dark-theme .social-card {
+            background-color: rgba(39, 39, 42, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5), 
+                        -8px -8px 20px rgba(255, 255, 255, 0.05);
+        }
+        .dark-theme .social-card:hover {
+            background-color: rgba(39, 39, 42, 0.6);
+            box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.6), 
+                        -10px -10px 25px rgba(255, 255, 255, 0.07);
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .light-theme .social-card {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 8px 8px 20px rgba(163, 177, 198, 0.6),
+                        -8px -8px 20px rgba(255, 255, 255, 1);
+        }
+        .light-theme .social-card:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 10px 10px 25px rgba(163, 177, 198, 0.7),
+                        -10px -10px 25px rgba(255, 255, 255, 1);
+            transform: translateY(-5px) scale(1.02);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Animated Gradient Background -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="absolute top-[-20%] left-[10%] w-96 h-96 bg-violet-500 rounded-full filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-[10%] right-[5%] w-96 h-96 bg-pink-500 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[5%] left-[25%] w-80 h-80 bg-blue-500 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    </div>
+
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-3">
+            <nav class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="text-xl font-bold text-headings flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-transfer transition-all duration-300 hover:scale-110 mr-2"><path d="M20 10h-16l5.5 -6"></path><path d="M4 14h16l-5.5 6"></path></svg>
+                    Kousho
+                </a>
+                
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="index.html#features" class="text-primary hover:bg-button-hover hover:text-headings px-4 py-2 rounded-md transition-colors duration-200">Features</a>
+                    <a href="socials.html" class="text-headings bg-button-hover px-4 py-2 rounded-md transition-colors duration-200">Socials</a>
+                    <a href="#" class="text-primary hover:bg-button-hover hover:text-headings px-4 py-2 rounded-md transition-colors duration-200">Console</a>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center space-x-2">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-button-hover transition-colors" aria-label="Toggle Theme">
+                            <svg id="theme-icon-light" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-headings"><path d="M7.5 0C7.77614 0 8 0.223858 8 0.5V2.5C8 2.77614 7.77614 3 7.5 3C7.22386 3 7 2.77614 7 2.5V0.5C7 0.223858 7.22386 0 7.5 0ZM2.1967 2.1967C2.39196 2.00144 2.70854 2.00144 2.90381 2.1967L4.31802 3.61091C4.51328 3.80617 4.51328 4.12276 4.31802 4.31802C4.12276 4.51328 3.80617 4.51328 3.61091 4.31802L2.1967 2.90381C2.00144 2.70854 2.00144 2.39196 2.1967 2.1967ZM0.5 7C0.223858 7 0 7.22386 0 7.5C0 7.77614 0.223858 8 0.5 8H2.5C2.77614 8 3 7.77614 3 7.5C3 7.22386 2.77614 7 2.5 7H0.5ZM2.1967 12.8033C2.00144 12.608 2.00144 12.2915 2.1967 12.0962L3.61091 10.682C3.80617 10.4867 4.12276 10.4867 4.31802 10.682C4.51328 10.8772 4.51328 11.1938 4.31802 11.3891L2.90381 12.8033C2.70854 12.9986 2.39196 12.9986 2.1967 12.8033ZM12.5 7C12.2239 7 12 7.22386 12 7.5C12 7.77614 12.2239 8 12.5 8H14.5C14.7761 8 15 7.77614 15 7.5C15 7.22386 14.7761 7 14.5 7H12.5ZM10.682 4.31802C10.4867 4.12276 10.4867 3.80617 10.682 3.61091L12.0962 2.1967C12.2915 2.00144 12.608 2.00144 12.8033 2.1967C12.9986 2.39196 12.9986 2.70854 12.8033 2.90381L11.3891 4.31802C11.1938 4.51328 10.8772 4.51328 10.682 4.31802ZM8 12.5C8 12.2239 7.77614 12 7.5 12C7.22386 12 7 12.2239 7 12.5V14.5C7 14.7761 7.22386 15 7.5 15C7.77614 15 8 14.7761 8 14.5V12.5ZM10.682 10.682C10.8772 10.4867 11.1938 10.4867 11.3891 10.682L12.8033 12.0962C12.9986 12.2915 12.9986 12.608 12.8033 12.8033C12.608 12.9986 12.2915 12.9986 12.0962 12.8033L10.682 11.3891C10.4867 11.1938 10.4867 10.8772 10.682 10.682ZM5.5 7.5C5.5 6.39543 6.39543 5.5 7.5 5.5C8.60457 5.5 9.5 6.39543 9.5 7.5C9.5 8.60457 8.60457 9.5 7.5 9.5C6.39543 9.5 5.5 8.60457 5.5 7.5ZM7.5 4.5C5.84315 4.5 4.5 5.84315 4.5 7.5C4.5 9.15685 5.84315 10.5 7.5 10.5C9.15685 10.5 10.5 9.15685 10.5 7.5C10.5 5.84315 9.15685 4.5 7.5 4.5Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                            <svg id="theme-icon-dark" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-headings hidden"><path d="M9.82112 1.41447C9.91436 1.41447 10.0039 1.43237 10.0863 1.46747C10.1686 1.50256 10.2404 1.5539 10.2982 1.61894C10.3559 1.68398 10.3986 1.76008 10.4241 1.84304C10.4496 1.926 10.4571 2.01421 10.446 2.10089C10.0822 4.4134 8.21319 6.22941 5.92211 6.5441C5.38521 6.61864 4.84715 6.61864 4.31025 6.5441C2.01917 6.22941 0.150143 4.4134 -0.213665 2.10089C-0.224773 2.01421 -0.217273 1.926 -0.191757 1.84304C-0.166241 1.76008 -0.123472 1.68398 -0.0657921 1.61894C-0.00811213 1.5539 0.0636383 1.50256 0.145989 1.46747C0.22834 1.43237 0.317852 1.41447 0.411091 1.41447H9.82112ZM9.82112 0.414473H0.411091C0.295242 0.414473 0.181822 0.441953 0.0808058 0.494059C-0.0202107 0.546165 -0.111166 0.621215 -0.186649 0.713837C-0.262132 0.806459 -0.320499 0.914441 -0.357921 1.0315C-0.395343 1.14856 -0.410884 1.27219 -0.403565 1.3946C-0.0163345 4.88032 2.43389 7.55835 5.875 7.55835C6.54413 7.55835 7.20457 7.45602 7.82865 7.25732C9.4089 6.75549 10.7431 5.61752 11.5302 4.09252C11.9137 3.34149 12.1581 2.51568 12.2476 1.64273C12.2562 1.54546 12.246 1.4485 12.2177 1.3571C12.1894 1.2657 12.1437 1.18183 12.0837 1.11051C12.0237 1.03919 11.9507 0.982206 11.8687 0.943093C11.7868 0.90398 11.6979 0.883669 11.6067 0.883669C11.0253 0.883669 10.4526 0.713601 9.9392 0.414473H9.82112Z" fill="currentColor" transform="translate(1.48828 3.27051)"></path></svg>
+                        </button>
+                        <button class="p-2.5 rounded-full hover:bg-button-hover transition-colors" aria-label="Music">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-headings"><path d="M4 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z"></path><path d="M15 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z"></path><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden text-headings hover:text-headings/80 z-50 relative">
+                         <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="hidden md:hidden bg-card/90 backdrop-blur-sm absolute top-0 inset-x-0 pt-20">
+            <div class="container mx-auto px-6 py-4 flex flex-col space-y-4">
+                 <a href="index.html#features" class="text-primary hover:text-headings text-center py-2">Features</a>
+                 <a href="socials.html" class="text-headings text-center py-2">Socials</a>
+                 <a href="#" class="text-primary hover:text-headings text-center py-2">Console</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 pt-20">
+        <!-- Socials Section -->
+        <section class="py-20 md:py-32">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-headings tracking-tighter animate-fade-in" style="--animation-delay: 200ms;">
+                        Connect With Us
+                    </h1>
+                    <p class="mt-4 text-lg md:text-xl text-primary max-w-2xl mx-auto animate-fade-in" style="--animation-delay: 400ms;">
+                        Follow our journey and get the latest updates on our social media channels. We're building in public and would love to have you with us.
+                    </p>
+                </div>
+
+                <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    <!-- Social Card 1: Twitter/X -->
+                    <div class="social-card p-8 flex flex-col items-center text-center animate-fade-in" style="--animation-delay: 600ms;">
+                        <div class="p-4 bg-card rounded-full border border-primary mb-6">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-headings"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-headings">Twitter / X</h3>
+                        <p class="text-primary mt-2">For announcements, thoughts, and real-time updates.</p>
+                        <a href="#" class="mt-6 text-violet-400 font-semibold hover:text-violet-300 transition-colors">Follow @Kousho &rarr;</a>
+                    </div>
+                    
+                    <!-- Social Card 2: Discord -->
+                    <div class="social-card p-8 flex flex-col items-center text-center animate-fade-in" style="--animation-delay: 800ms;">
+                         <div class="p-4 bg-card rounded-full border border-primary mb-6">
+                            <svg width="32" height="32" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-headings"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.07451 1.82584C5.03267 1.81926 4.99014 1.81825 4.94803 1.82284C4.10683 1.91446 2.82673 2.36828 2.07115 2.77808C2.02106 2.80525 1.97621 2.84112 1.93869 2.88402C1.62502 3.24266 1.34046 3.82836 1.11706 4.38186C0.887447 4.95076 0.697293 5.55032 0.588937 5.98354C0.236232 7.39369 0.042502 9.08728 0.0174948 10.6925C0.0162429 10.7729 0.0351883 10.8523 0.0725931 10.9234C0.373679 11.496 1.02015 12.027 1.66809 12.4152C2.32332 12.8078 3.08732 13.1182 3.70385 13.1778C3.85335 13.1922 4.00098 13.1358 4.10282 13.0255C4.2572 12.8581 4.5193 12.4676 4.71745 12.1643C4.80739 12.0267 4.89157 11.8953 4.95845 11.7901C5.62023 11.9106 6.45043 11.9801 7.50002 11.9801C8.54844 11.9801 9.37796 11.9107 10.0394 11.7905C10.1062 11.8957 10.1903 12.0269 10.2801 12.1643C10.4783 12.4676 10.7404 12.8581 10.8947 13.0255C10.9966 13.1358 11.1442 13.1922 11.2937 13.1778C11.9102 13.1182 12.6742 12.8078 13.3295 12.4152C13.9774 12.027 14.6239 11.496 14.925 10.9234C14.9624 10.8523 14.9813 10.7729 14.9801 10.6925C14.9551 9.08728 14.7613 7.39369 14.4086 5.98354C14.3003 5.55032 14.1101 4.95076 13.8805 4.38186C13.6571 3.82836 13.3725 3.24266 13.0589 2.88402C13.0214 2.84112 12.9765 2.80525 12.9264 2.77808C12.1708 2.36828 10.8907 1.91446 10.0495 1.82284C10.0074 1.81825 9.96489 1.81926 9.92305 1.82584C9.71676 1.85825 9.5391 1.96458 9.40809 2.06355C9.26977 2.16804 9.1413 2.29668 9.0304 2.42682C8.86968 2.61544 8.71437 2.84488 8.61428 3.06225C8.27237 3.03501 7.90138 3.02 7.5 3.02C7.0977 3.02 6.72593 3.03508 6.38337 3.06244C6.28328 2.84501 6.12792 2.61549 5.96716 2.42682C5.85626 2.29668 5.72778 2.16804 5.58947 2.06355C5.45846 1.96458 5.2808 1.85825 5.07451 1.82584ZM4.08049 7.01221C4.32412 6.74984 4.65476 6.60162 5.00007 6.59998C5.34538 6.60162 5.67603 6.74984 5.91966 7.01221C6.16329 7.27459 6.30007 7.62974 6.30007 7.99998C6.30007 8.37021 6.16329 8.72536 5.91966 8.98774C5.67603 9.25011 5.34538 9.39833 5.00007 9.39998C4.65476 9.39833 4.32412 9.25011 4.08049 8.98774C3.83685 8.72536 3.70007 8.37021 3.70007 7.99998C3.70007 7.62974 3.83685 7.27459 4.08049 7.01221ZM9.99885 6.59998C9.65354 6.60162 9.3229 6.74984 9.07926 7.01221C8.83563 7.27459 8.69885 7.62974 8.69885 7.99998C8.69885 8.37021 8.83563 8.72536 9.07926 8.98774C9.3229 9.25011 9.65354 9.39833 9.99885 9.39998C10.3442 9.39833 10.6748 9.25011 10.9184 8.98774C11.1621 8.72536 11.2989 8.37021 11.2989 7.99998C11.2989 7.62974 11.1621 7.27459 10.9184 7.01221C10.6748 6.74984 10.3442 6.60162 9.99885 6.59998Z" fill="currentColor"></path></svg>
+                         </div>
+                        <h3 class="text-2xl font-semibold text-headings">Discord Community</h3>
+                        <p class="text-primary mt-2">Join the conversation, ask questions, and meet other users.</p>
+                        <a href="#" class="mt-6 text-pink-400 font-semibold hover:text-pink-300 transition-colors">Join Server &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-card border-t border-primary mt-20 relative z-10">
+        <div class="container mx-auto px-10 py-10">
+            <div class="mx-auto flex flex-col md:flex-row w-full justify-between border-b border-primary gap-12 pb-10">
+                <div class="flex flex-col">
+                    <a href="index.html" class="text-2xl font-bold text-headings mb-4 inline-flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-transfer mr-2"><path d="M20 10h-16l5.5 -6"></path><path d="M4 14h16l-5.5 6"></path></svg>
+                    </a>
+                    <div class="mt-auto">
+                        <h2 class="text-md mt-6 font-bold text-headings opacity-80">Join Kousho's Journey</h2>
+                         <div class="mt-4 flex flex-row opacity-70 space-x-5">
+                            <a href="#" class="hover:text-headings transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+                            <a href="#" class="hover:text-headings transition-colors"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.07451 1.82584C5.03267 1.81926 4.99014 1.81825 4.94803 1.82284C4.10683 1.91446 2.82673 2.36828 2.07115 2.77808C2.02106 2.80525 1.97621 2.84112 1.93869 2.88402C1.62502 3.24266 1.34046 3.82836 1.11706 4.38186C0.887447 4.95076 0.697293 5.55032 0.588937 5.98354C0.236232 7.39369 0.042502 9.08728 0.0174948 10.6925C0.0162429 10.7729 0.0351883 10.8523 0.0725931 10.9234C0.373679 11.496 1.02015 12.027 1.66809 12.4152C2.32332 12.8078 3.08732 13.1182 3.70385 13.1778C3.85335 13.1922 4.00098 13.1358 4.10282 13.0255C4.2572 12.8581 4.5193 12.4676 4.71745 12.1643C4.80739 12.0267 4.89157 11.8953 4.95845 11.7901C5.62023 11.9106 6.45043 11.9801 7.50002 11.9801C8.54844 11.9801 9.37796 11.9107 10.0394 11.7905C10.1062 11.8957 10.1903 12.0269 10.2801 12.1643C10.4783 12.4676 10.7404 12.8581 10.8947 13.0255C10.9966 13.1358 11.1442 13.1922 11.2937 13.1778C11.9102 13.1182 12.6742 12.8078 13.3295 12.4152C13.9774 12.027 14.6239 11.496 14.925 10.9234C14.9624 10.8523 14.9813 10.7729 14.9801 10.6925C14.9551 9.08728 14.7613 7.39369 14.4086 5.98354C14.3003 5.55032 14.1101 4.95076 13.8805 4.38186C13.6571 3.82836 13.3725 3.24266 13.0589 2.88402C13.0214 2.84112 12.9765 2.80525 12.9264 2.77808C12.1708 2.36828 10.8907 1.91446 10.0495 1.82284C10.0074 1.81825 9.96489 1.81926 9.92305 1.82584C9.71676 1.85825 9.5391 1.96458 9.40809 2.06355C9.26977 2.16804 9.1413 2.29668 9.0304 2.42682C8.86968 2.61544 8.71437 2.84488 8.61428 3.06225C8.27237 3.03501 7.90138 3.02 7.5 3.02C7.0977 3.02 6.72593 3.03508 6.38337 3.06244C6.28328 2.84501 6.12792 2.61549 5.96716 2.42682C5.85626 2.29668 5.72778 2.16804 5.58947 2.06355C5.45846 1.96458 5.2808 1.85825 5.07451 1.82584ZM4.08049 7.01221C4.32412 6.74984 4.65476 6.60162 5.00007 6.59998C5.34538 6.60162 5.67603 6.74984 5.91966 7.01221C6.16329 7.27459 6.30007 7.62974 6.30007 7.99998C6.30007 8.37021 6.16329 8.72536 5.91966 8.98774C5.67603 9.25011 5.34538 9.39833 5.00007 9.39998C4.65476 9.39833 4.32412 9.25011 4.08049 8.98774C3.83685 8.72536 3.70007 8.37021 3.70007 7.99998C3.70007 7.62974 3.83685 7.27459 4.08049 7.01221ZM9.99885 6.59998C9.65354 6.60162 9.3229 6.74984 9.07926 7.01221C8.83563 7.27459 8.69885 7.62974 8.69885 7.99998C8.69885 8.37021 8.83563 8.72536 9.07926 8.98774C9.3229 9.25011 9.65354 9.39833 9.99885 9.39998C10.3442 9.39833 10.6748 9.25011 10.9184 8.98774C11.1621 8.72536 11.2989 8.37021 11.2989 7.99998C11.2989 7.62974 11.1621 7.27459 10.9184 7.01221C10.6748 6.74984 10.3442 6.60162 9.99885 6.59998Z" fill="currentColor"></path></svg></a>
+                         </div>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row">
+                    <div>
+                        <ul class="mt-4 font-normal opacity-70 space-y-2">
+                            <li><a href="#" class="hover:text-headings transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-headings transition-colors">Cookie Policy</a></li>
+                            <li><a href="#" class="hover:text-headings transition-colors">Terms and Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <div class="mx-auto flex w-full items-center justify-center pt-10">
+                <p class="text-xs font-normal opacity-30">Copyright © 2025 Kousho</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('header');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+            const themeToggle = document.getElementById('theme-toggle');
+            const lightIcon = document.getElementById('theme-icon-light');
+            const darkIcon = document.getElementById('theme-icon-dark');
+            const body = document.body;
+
+            // --- Theme Toggler ---
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    lightIcon.classList.add('hidden');
+                    darkIcon.classList.remove('hidden');
+                    document.documentElement.style.colorScheme = 'light';
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                    lightIcon.classList.remove('hidden');
+                    darkIcon.classList.add('hidden');
+                    document.documentElement.style.colorScheme = 'dark';
+                }
+            };
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // Load saved theme from localStorage or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
+
