@@ -2,429 +2,413 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kousho - Something Cool & Insane.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kousho - The Future of Work</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --color-1: #8B5CF6; /* Violet */
-            --color-2: #EC4899; /* Pink */
-            --color-3: #3B82F6; /* Blue */
-            --color-4: #10B981; /* Green */
-            --color-5: #F59E0B; /* Amber */
+            --color-accent: #8B5CF6;
+            --cursor-size: 20px;
         }
 
-        /* Base styles */
+        /* --- Base & Theme --- */
         body {
             font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Dark theme variables (default) */
-        .dark-theme {
-            --bg-primary: #000000;
-            --text-primary: #A1A1AA;
-            --text-headings: #ffffff;
-            --header-bg: rgba(0, 0, 0, 0.8);
-            --border-color: #27272A;
-            --card-bg: #18181b;
-            --feature-card-bg: rgba(24, 24, 27, 0.5);
-            --button-hover-bg: #27272A;
+            transition: background-color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.5s;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent; /* Remove tap blue box on mobile */
         }
         
-        /* Light theme variables */
-        .light-theme {
-            --bg-primary: #f4f4f5;
-            --text-primary: #3f3f46;
-            --text-headings: #18181b;
-            --header-bg: rgba(255, 255, 255, 0.8);
-            --border-color: #e4e4e7;
-            --card-bg: #ffffff;
-            --feature-card-bg: #ffffff;
-            --button-hover-bg: #f4f4f5;
+        html.dark-theme {
+            --bg-primary: #050505; --text-primary: #a1a1aa; --text-headings: #fff;
+            --card-bg: rgba(20, 20, 20, 0.6); --border-color: rgba(255,255,255,0.1);
+            color-scheme: dark;
+        }
+        html.light-theme {
+            --bg-primary: #f5f5f5; --text-primary: #52525b; --text-headings: #000;
+            --card-bg: rgba(255, 255, 255, 0.9); --border-color: rgba(0,0,0,0.1);
+            color-scheme: light;
         }
         
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-        }
-
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
         .text-headings { color: var(--text-headings); }
-        .border-primary { border-color: var(--border-color); }
-        .bg-card { background-color: var(--card-bg); }
-        .bg-feature-card { background-color: var(--feature-card-bg); }
-        .hover\:bg-button-hover:hover { background-color: var(--button-hover-bg); }
 
-        .header-scrolled {
-            background-color: var(--header-bg);
-            backdrop-filter: blur(12px);
-            border-bottom-width: 1px;
-            border-color: var(--border-color);
+        /* --- Mobile Optimizations --- */
+        @media (pointer: coarse) {
+            #custom-cursor { display: none !important; }
+            body { cursor: auto !important; }
+            .spotlight-card::before { opacity: 1 !important; background: none !important; border: 1px solid var(--border-color); }
+            /* Hide video on low-power mobile if needed, or ensure playsinline works */
+        }
+
+        /* --- Custom Cursor (Desktop Only) --- */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            #custom-cursor {
+                width: var(--cursor-size); height: var(--cursor-size);
+                border: 1px solid var(--text-headings);
+                border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+                transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
+                mix-blend-mode: difference;
+            }
+            #custom-cursor.hovered {
+                width: 50px; height: 50px; background-color: white; mix-blend-mode: difference; border: none;
+            }
+        }
+
+        /* --- Preloader --- */
+        #preloader {
+            position: fixed; inset: 0; background: var(--bg-primary); z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
         
-        /* Rainbow animated button styles */
-        @keyframes rainbow {
-            to {
-                background-position: 200% center;
-            }
+        /* --- Spotlight Card (Apple Style) --- */
+        .spotlight-card {
+            position: relative; overflow: hidden; border-radius: 1.5rem;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
         }
-        .rainbow-button::before {
-            content: '';
-            position: absolute;
-            bottom: -20%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: -1;
-            height: 20%;
-            width: 60%;
-            background-image: linear-gradient(90deg, var(--color-1), var(--color-5), var(--color-3), var(--color-4), var(--color-2));
-            background-size: 200% auto;
-            animation: rainbow 3s linear infinite;
-            filter: blur(0.8rem);
+        /* Only apply mouse tracking on non-touch */
+        @media (hover: hover) {
+            .spotlight-card::before {
+                content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                border-radius: inherit; padding: 1px;
+                background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.3), transparent 40%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor; mask-composite: exclude;
+                opacity: 0; transition: opacity 0.5s; pointer-events: none;
+            }
+            .spotlight-card:hover::before { opacity: 1; }
         }
 
-        /* Laptop open animation */
-        @keyframes laptopOpen {
-            from {
-                transform: rotateX(85deg) scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: rotateX(20deg) scale(1.05);
-                opacity: 1;
-            }
-        }
+        /* --- Marquee Animation --- */
+        .marquee-container { overflow: hidden; position: relative; }
+        .marquee-content { display: flex; gap: 4rem; animation: scroll 30s linear infinite; width: max-content; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Float animation for the tablet */
-        @keyframes float {
-            0%, 100% {
-                transform: rotateX(20deg) scale(1.05) translateY(-10px);
-            }
-            50% {
-                transform: rotateX(20deg) scale(1.05) translateY(10px);
-            }
-        }
+        /* --- Text Reveal Animation --- */
+        .reveal-text-wrapper { overflow: hidden; }
+        .reveal-text-line { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-text-line.visible { transform: translateY(0); }
 
-        /* Fade-in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(1rem); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-            animation-delay: var(--animation-delay, 0s);
-            opacity: 0;
-        }
+        /* --- Accordion --- */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* Hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        /* --- Mobile Menu --- */
+        .mobile-menu {
+            position: fixed; inset: 0; background: var(--bg-primary); z-index: 49;
+            transform: translateY(-100%); transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .mobile-menu.open { transform: translateY(0); }
     </style>
+
+    <script>
+        // Immediate Theme Apply (No Flash)
+        (function() {
+            const t = localStorage.getItem('theme') || 'dark';
+            document.documentElement.classList.add(t + '-theme');
+        })();
+    </script>
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
-    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="container mx-auto px-6 py-3">
-            <nav class="flex items-center justify-between">
-                <!-- Logo -->
-                <a href="index.html" class="text-xl font-bold text-headings flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-transfer transition-all duration-300 hover:scale-110 mr-2"><path d="M20 10h-16l5.5 -6"></path><path d="M4 14h16l-5.5 6"></path></svg>
-                    Kousho
-                </a>
-                
-                <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="index.html" class="text-headings bg-button-hover px-4 py-2 rounded-md transition-colors duration-200">Home</a>
-                    <a href="#features" class="text-primary hover:bg-button-hover hover:text-headings px-4 py-2 rounded-md transition-colors duration-200">Features</a>
-                    <a href="socials.html" class="text-primary hover:bg-button-hover hover:text-headings px-4 py-2 rounded-md transition-colors duration-200">Socials</a>
-                    <a href="#" class="text-primary hover:bg-button-hover hover:text-headings px-4 py-2 rounded-md transition-colors duration-200">Console</a>
-                </div>
+    <div id="custom-cursor"></div>
 
-                <!-- Right Side Actions -->
-                <div class="flex items-center space-x-2">
-                    <div class="hidden md:flex items-center space-x-2">
-                        <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-button-hover transition-colors" aria-label="Toggle Theme">
-                            <svg id="theme-icon-light" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-headings"><path d="M7.5 0C7.77614 0 8 0.223858 8 0.5V2.5C8 2.77614 7.77614 3 7.5 3C7.22386 3 7 2.77614 7 2.5V0.5C7 0.223858 7.22386 0 7.5 0ZM2.1967 2.1967C2.39196 2.00144 2.70854 2.00144 2.90381 2.1967L4.31802 3.61091C4.51328 3.80617 4.51328 4.12276 4.31802 4.31802C4.12276 4.51328 3.80617 4.51328 3.61091 4.31802L2.1967 2.90381C2.00144 2.70854 2.00144 2.39196 2.1967 2.1967ZM0.5 7C0.223858 7 0 7.22386 0 7.5C0 7.77614 0.223858 8 0.5 8H2.5C2.77614 8 3 7.77614 3 7.5C3 7.22386 2.77614 7 2.5 7H0.5ZM2.1967 12.8033C2.00144 12.608 2.00144 12.2915 2.1967 12.0962L3.61091 10.682C3.80617 10.4867 4.12276 10.4867 4.31802 10.682C4.51328 10.8772 4.51328 11.1938 4.31802 11.3891L2.90381 12.8033C2.70854 12.9986 2.39196 12.9986 2.1967 12.8033ZM12.5 7C12.2239 7 12 7.22386 12 7.5C12 7.77614 12.2239 8 12.5 8H14.5C14.7761 8 15 7.77614 15 7.5C15 7.22386 14.7761 7 14.5 7H12.5ZM10.682 4.31802C10.4867 4.12276 10.4867 3.80617 10.682 3.61091L12.0962 2.1967C12.2915 2.00144 12.608 2.00144 12.8033 2.1967C12.9986 2.39196 12.9986 2.70854 12.8033 2.90381L11.3891 4.31802C11.1938 4.51328 10.8772 4.51328 10.682 4.31802ZM8 12.5C8 12.2239 7.77614 12 7.5 12C7.22386 12 7 12.2239 7 12.5V14.5C7 14.7761 7.22386 15 7.5 15C7.77614 15 8 14.7761 8 14.5V12.5ZM10.682 10.682C10.8772 10.4867 11.1938 10.4867 11.3891 10.682L12.8033 12.0962C12.9986 12.2915 12.9986 12.608 12.8033 12.8033C12.608 12.9986 12.2915 12.9986 12.0962 12.8033L10.682 11.3891C10.4867 11.1938 10.4867 10.8772 10.682 10.682ZM5.5 7.5C5.5 6.39543 6.39543 5.5 7.5 5.5C8.60457 5.5 9.5 6.39543 9.5 7.5C9.5 8.60457 8.60457 9.5 7.5 9.5C6.39543 9.5 5.5 8.60457 5.5 7.5ZM7.5 4.5C5.84315 4.5 4.5 5.84315 4.5 7.5C4.5 9.15685 5.84315 10.5 7.5 10.5C9.15685 10.5 10.5 9.15685 10.5 7.5C10.5 5.84315 9.15685 4.5 7.5 4.5Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                            <svg id="theme-icon-dark" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-headings hidden"><path d="M9.82112 1.41447C9.91436 1.41447 10.0039 1.43237 10.0863 1.46747C10.1686 1.50256 10.2404 1.5539 10.2982 1.61894C10.3559 1.68398 10.3986 1.76008 10.4241 1.84304C10.4496 1.926 10.4571 2.01421 10.446 2.10089C10.0822 4.4134 8.21319 6.22941 5.92211 6.5441C5.38521 6.61864 4.84715 6.61864 4.31025 6.5441C2.01917 6.22941 0.150143 4.4134 -0.213665 2.10089C-0.224773 2.01421 -0.217273 1.926 -0.191757 1.84304C-0.166241 1.76008 -0.123472 1.68398 -0.0657921 1.61894C-0.00811213 1.5539 0.0636383 1.50256 0.145989 1.46747C0.22834 1.43237 0.317852 1.41447 0.411091 1.41447H9.82112ZM9.82112 0.414473H0.411091C0.295242 0.414473 0.181822 0.441953 0.0808058 0.494059C-0.0202107 0.546165 -0.111166 0.621215 -0.186649 0.713837C-0.262132 0.806459 -0.320499 0.914441 -0.357921 1.0315C-0.395343 1.14856 -0.410884 1.27219 -0.403565 1.3946C-0.0163345 4.88032 2.43389 7.55835 5.875 7.55835C6.54413 7.55835 7.20457 7.45602 7.82865 7.25732C9.4089 6.75549 10.7431 5.61752 11.5302 4.09252C11.9137 3.34149 12.1581 2.51568 12.2476 1.64273C12.2562 1.54546 12.246 1.4485 12.2177 1.3571C12.1894 1.2657 12.1437 1.18183 12.0837 1.11051C12.0237 1.03919 11.9507 0.982206 11.8687 0.943093C11.7868 0.90398 11.6979 0.883669 11.6067 0.883669C11.0253 0.883669 10.4526 0.713601 9.9392 0.414473H9.82112Z" fill="currentColor" transform="translate(1.48828 3.27051)"></path></svg>
-                        </button>
-                        <button class="p-2.5 rounded-full hover:bg-button-hover transition-colors" aria-label="Music">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-headings"><path d="M4 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z"></path><path d="M15 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z"></path><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path></svg>
-                        </button>
-                    </div>
+    <div id="preloader">
+        <div class="text-2xl font-mono font-bold text-headings tracking-widest animate-pulse">INITIALIZING...</div>
+    </div>
 
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="md:hidden text-headings hover:text-headings/80 z-50 relative">
-                         <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+    <header id="header" class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-white/5 backdrop-blur-md">
+        <div class="container mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-headings flex items-center gap-2 group hover-trigger z-50">
+                <div class="w-8 h-8 bg-gradient-to-tr from-violet-600 to-pink-500 rounded-lg flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </div>
+                <span class="font-mono tracking-tighter">KOUSHO</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-1">
+                <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-primary hover:text-headings hover:bg-white/5 transition-all hover-trigger">Home</a>
+                <a href="#features" class="px-5 py-2 rounded-full text-sm font-medium text-primary hover:text-headings hover:bg-white/5 transition-all hover-trigger">Features</a>
+                <a href="#faq" class="px-5 py-2 rounded-full text-sm font-medium text-primary hover:text-headings hover:bg-white/5 transition-all hover-trigger">FAQ</a>
             </nav>
-        </div>
-        <!-- Mobile Nav -->
-        <div id="mobile-menu" class="hidden md:hidden bg-card/90 backdrop-blur-sm absolute top-0 inset-x-0 pt-20">
-            <div class="container mx-auto px-6 py-4 flex flex-col space-y-4">
-                 <a href="index.html" class="text-headings text-center py-2">Home</a>
-                 <a href="#features" class="text-primary hover:text-headings text-center py-2">Features</a>
-                 <a href="socials.html" class="text-primary hover:text-headings text-center py-2">Socials</a>
-                 <a href="#" class="text-primary hover:text-headings text-center py-2">Console</a>
+
+            <div class="flex items-center gap-2 z-50">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/10 text-headings transition-colors hover-trigger">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <a href="socials.html" class="hidden md:block px-4 py-2 bg-white text-black rounded-full text-sm font-bold hover:scale-105 transition-transform hover-trigger">Socials</a>
+                
+                <button id="menu-btn" class="md:hidden p-2 text-headings focus:outline-none">
+                    <div class="w-6 h-0.5 bg-current mb-1.5 transition-all duration-300 origin-center" id="bar1"></div>
+                    <div class="w-6 h-0.5 bg-current transition-all duration-300" id="bar2"></div>
+                    <div class="w-6 h-0.5 bg-current mt-1.5 transition-all duration-300 origin-center" id="bar3"></div>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="pt-20">
-        <!-- Hero Section -->
-        <section class="relative mx-auto flex max-w-7xl flex-col items-center justify-center px-6 md:px-8 text-center h-[35rem] md:h-[40rem]">
-            <div class="absolute inset-0 rounded-lg overflow-hidden">
-                <video autoplay loop muted playsinline class="absolute z-0 w-full h-full object-cover">
+    <div class="mobile-menu" id="mobile-nav">
+        <nav class="flex flex-col items-center gap-8 text-3xl font-bold text-headings">
+            <a href="#" class="mobile-link hover:text-violet-500 transition-colors">Home</a>
+            <a href="#features" class="mobile-link hover:text-violet-500 transition-colors">Features</a>
+            <a href="#faq" class="mobile-link hover:text-violet-500 transition-colors">FAQ</a>
+            <a href="socials.html" class="mobile-link hover:text-violet-500 transition-colors">Socials</a>
+        </nav>
+        <div class="absolute bottom-10 text-xs text-primary font-mono">
+            KOUSHO MOBILE V2.0
+        </div>
+    </div>
+
+    <main>
+        <section class="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 pt-20 overflow-hidden">
+            <div class="absolute inset-0 z-[-1]">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-40 dark:opacity-30" poster="e7ec9270-4859-490d-a5a8-853b5fc0b007.png">
                     <source src="https://www.pexels.com/download/video/856857/" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
-                <div class="absolute inset-0 bg-black/50 z-5"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-transparent opacity-80"></div>
             </div>
-            <div class="relative z-10 flex flex-col items-center">
-                <p class="animate-fade-in flex items-center text-balance text-xl tracking-tight text-zinc-400 md:text-2xl lg:text-3xl" style="--animation-delay: 400ms;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-transfer"><path d="M20 10h-16l5.5 -6"></path><path d="M4 14h16l-5.5 6"></path></svg>
-                    <strong>Kousho</strong>
-                </p>
-                <h1 class="animate-fade-in text-balance bg-gradient-to-br from-white from-30% to-white/40 bg-clip-text py-4 md:py-6 text-5xl font-semibold leading-none tracking-tighter text-transparent sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl" style="--animation-delay: 200ms;">
-                    Something Cool & Insane.
+
+            <div class="max-w-4xl mx-auto z-10 mt-10">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-xs font-mono text-violet-400 mb-8 animate-pulse">
+                    <span class="w-2 h-2 bg-green-500 rounded-full"></span> V2.0 IS LIVE
+                </div>
+                
+                <h1 class="text-5xl sm:text-7xl md:text-9xl font-bold text-headings tracking-tighter mb-8 leading-[0.9]">
+                    <div class="reveal-text-wrapper"><div class="reveal-text-line">Create</div></div>
+                    <div class="reveal-text-wrapper"><div class="reveal-text-line bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500">The Impossible.</div></div>
                 </h1>
-                <div class="animate-fade-in flex w-full flex-col items-center justify-center sm:flex-row gap-4" style="--animation-delay: 600ms;">
-                    <a href="#" class="group rainbow-button relative bg-black text-white inline-flex h-12 cursor-pointer items-center justify-center rounded-full text-sm font-medium px-8 py-4 w-full sm:w-auto">
-                        <span>Login Now </span>
-                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    </a>
-                    <a href="#" class="group rainbow-button relative bg-black text-white inline-flex h-12 cursor-pointer items-center justify-center rounded-full text-sm font-medium px-8 py-4 w-full sm:w-auto">
-                        Learn More 
-                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    </a>
+
+                <p class="text-lg md:text-xl text-primary max-w-lg mx-auto mb-10 leading-relaxed opacity-0 animate-fade-in-up" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
+                    Build, organize, and scale your workflow with the first AI operating system designed for creative chaos.
+                </p>
+
+                <div class="flex flex-col w-full sm:w-auto sm:flex-row gap-4 justify-center items-center opacity-0 animate-fade-in-up" style="animation-delay: 0.7s; animation-fill-mode: forwards;">
+                    <button class="w-full sm:w-auto px-8 py-4 bg-headings text-[var(--bg-primary)] font-bold rounded-full text-lg bg-white text-black hover:scale-105 active:scale-95 transition-transform hover-trigger">
+                        Get Started
+                    </button>
+                    <button class="w-full sm:w-auto px-8 py-4 border border-white/20 text-headings font-bold rounded-full text-lg hover:bg-white/10 active:bg-white/20 transition-colors hover-trigger">
+                        Watch Demo
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- 3D Section -->
-        <section class="py-10 md:py-20 overflow-hidden">
-             <div class="w-full relative" style="perspective: 1000px;">
-                <div class="max-w-7xl mx-auto text-center px-4">
-                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-semibold text-headings">Complete any task <span class="block text-4xl sm:text-5xl md:text-6xl lg:text-[6rem] font-bold mt-1 leading-none">in just 5 minutes.</span></h2>
+        <section class="py-10 border-y border-white/5 bg-black/20 backdrop-blur-sm">
+            <div class="marquee-container">
+                <div class="marquee-content text-4xl font-bold text-white/10 font-mono uppercase tracking-widest select-none">
+                    <span>Microsoft</span> <span>Google</span> <span>Spotify</span> <span>Uber</span> <span>Airbnb</span> <span>Notion</span> <span>Linear</span> <span>Vercel</span>
+                    <span>Microsoft</span> <span>Google</span> <span>Spotify</span> <span>Uber</span> <span>Airbnb</span> <span>Notion</span> <span>Linear</span> <span>Vercel</span>
                 </div>
-                <div class="max-w-5xl mt-8 md:-mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-primary p-2 md:p-6 bg-card rounded-[30px] shadow-2xl" style="box-shadow: rgba(0, 0, 0, 0.3) 0px 0px, rgba(0, 0, 0, 0.29) 0px 9px 20px, rgba(0, 0, 0, 0.26) 0px 37px 37px, rgba(0, 0, 0, 0.15) 0px 84px 50px; animation: laptopOpen 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, float 6s ease-in-out 1.2s infinite;">
-                    <div class="h-full w-full overflow-hidden rounded-2xl bg-zinc-900 md:rounded-2xl">
-                        <video id="dark-mode-video" autoplay loop muted playsinline class="mx-auto rounded-2xl object-cover h-full w-full object-left-top">
-                            <source src="https://www.pexels.com/download/video/7094565/" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <video id="light-mode-video" autoplay loop muted playsinline class="mx-auto rounded-2xl object-cover h-full w-full object-left-top hidden">
-                            <source src="https://cdn.pixabay.com/video/2022/01/03/103313-662525612_large.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+            </div>
+        </section>
+
+        <section class="py-20 container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6 bg-white/5 rounded-2xl">
+                    <div class="text-4xl font-bold text-headings mb-2 counter" data-target="150">0</div>
+                    <div class="text-sm text-primary">Downloads (k)</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl">
+                    <div class="text-4xl font-bold text-headings mb-2 counter" data-target="99">0</div>
+                    <div class="text-sm text-primary">Uptime (%)</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl">
+                    <div class="text-4xl font-bold text-headings mb-2 counter" data-target="500">0</div>
+                    <div class="text-sm text-primary">Components</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl">
+                    <div class="text-4xl font-bold text-headings mb-2 counter" data-target="24">0</div>
+                    <div class="text-sm text-primary">Support (Hrs)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 px-6">
+            <div class="container mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold text-headings mb-4">Everything You Need.</h2>
+                    <p class="text-primary">Packed with features for the modern builder.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="spotlight-container">
+                    <div class="spotlight-card p-8 h-80 flex flex-col justify-end group hover-trigger">
+                        <div class="absolute top-8 left-8 p-3 bg-violet-500/20 rounded-xl text-violet-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-headings mb-2">AI Powered</h3>
+                        <p class="text-primary">Generative workflows that adapt to your style.</p>
+                    </div>
+                    <div class="spotlight-card p-8 h-80 flex flex-col justify-end group hover-trigger">
+                        <div class="absolute top-8 left-8 p-3 bg-pink-500/20 rounded-xl text-pink-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-headings mb-2">Full Control</h3>
+                        <p class="text-primary">Granular settings for every aspect of your dashboard.</p>
+                    </div>
+                    <div class="spotlight-card p-8 h-80 flex flex-col justify-end group hover-trigger">
+                         <div class="absolute top-8 left-8 p-3 bg-blue-500/20 rounded-xl text-blue-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-headings mb-2">Security First</h3>
+                        <p class="text-primary">Enterprise-grade encryption for all your data.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Countdown Section -->
-        <section class="py-20 md:py-32">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl font-semibold text-headings mb-8 tracking-widest animate-fade-in" style="--animation-delay: 200ms;">COMING SOON</h2>
-                <div id="countdown-timer-container" class="animate-fade-in" style="--animation-delay: 400ms;">
-                    <div class="bg-card/50 border border-primary backdrop-blur-sm p-4 md:p-8 rounded-2xl inline-block max-w-4xl mx-auto">
-                        <div class="flex justify-center text-4xl sm:text-6xl md:text-8xl font-bold text-headings tracking-tighter" id="timer">
-                          <div class="flex flex-col items-center mx-1 sm:mx-2 md:mx-4">
-                            <span id="days" class="leading-none">00</span>
-                            <span class="text-xs sm:text-sm font-normal opacity-70 mt-2 tracking-widest">DAYS</span>
-                          </div>
-                          <span class="mx-1 sm:mx-2">:</span>
-                          <div class="flex flex-col items-center mx-1 sm:mx-2 md:mx-4">
-                            <span id="hours" class="leading-none">00</span>
-                            <span class="text-xs sm:text-sm font-normal opacity-70 mt-2 tracking-widest">HOURS</span>
-                          </div>
-                          <span class="mx-1 sm:mx-2">:</span>
-                          <div class="flex flex-col items-center mx-1 sm:mx-2 md:mx-4">
-                            <span id="minutes" class="leading-none">00</span>
-                            <span class="text-xs sm:text-sm font-normal opacity-70 mt-2 tracking-widest">MINUTES</span>
-                          </div>
-                           <span class="mx-1 sm:mx-2">:</span>
-                          <div class="flex flex-col items-center mx-1 sm:mx-2 md:mx-4">
-                            <span id="seconds" class="leading-none">00</span>
-                            <span class="text-xs sm:text-sm font-normal opacity-70 mt-2 tracking-widest">SECONDS</span>
-                          </div>
-                        </div>
-                    </div>
-                </div>
+        <section id="faq" class="py-20 container mx-auto px-6 max-w-3xl">
+            <h2 class="text-3xl font-bold text-headings mb-10 text-center">Common Questions</h2>
+            
+            <div class="space-y-4">
+                <details class="group bg-white/5 rounded-2xl p-6 open:bg-white/10 transition-colors">
+                    <summary class="flex justify-between items-center font-medium text-headings text-lg">
+                        Is Kousho free to use?
+                        <span class="transform group-open:rotate-180 transition-transform">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <p class="text-primary mt-4 leading-relaxed">Yes, we offer a generous free tier for individuals. Pro features are available for teams.</p>
+                </details>
+
+                <details class="group bg-white/5 rounded-2xl p-6 open:bg-white/10 transition-colors">
+                    <summary class="flex justify-between items-center font-medium text-headings text-lg">
+                        Does it work on mobile?
+                        <span class="transform group-open:rotate-180 transition-transform">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <p class="text-primary mt-4 leading-relaxed">Absolutely. Kousho is designed mobile-first to ensure you can be productive anywhere.</p>
+                </details>
+
+                <details class="group bg-white/5 rounded-2xl p-6 open:bg-white/10 transition-colors">
+                    <summary class="flex justify-between items-center font-medium text-headings text-lg">
+                        Can I export my data?
+                        <span class="transform group-open:rotate-180 transition-transform">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <p class="text-primary mt-4 leading-relaxed">Your data belongs to you. Export to JSON, CSV, or PDF at any time.</p>
+                </details>
             </div>
         </section>
+    </main>
 
-
-        <!-- Features Section -->
-        <section id="features" class="py-20 md:py-32">
-            <div class="container mx-auto px-6 lg:px-8">
-                 <div class="mx-auto flex w-full flex-col bg-feature-card border border-primary shadow md:rounded-md lg:flex-row">
-                    <div class="flex-1 p-5 lg:p-12">
-                        <div class="flex flex-col justify-center p-4 lg:p-12">
-                            <h3 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-headings">AI File Interactions <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-file inline h-8 w-8 lg:h-10 lg:w-10"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path></svg></h3>
-                            <p class="mt-4 text-lg lg:text-xl text-primary">With Kousho's File Interaction feature, you can easily upload new files. Simply use the "#" command in the composer to select from your uploaded files.</p>
-                        </div>
-                        <hr class="border-primary">
-                        <div class="flex flex-col justify-center p-4 lg:p-12">
-                            <h3 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-headings">Make Collections <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-folder inline h-8 w-8 lg:h-10 lg:w-10"><path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2"></path></svg></h3>
-                            <p class="mt-4 text-lg lg:text-xl text-primary">With Collections, you can create folders within the app to organize your uploaded files.</p>
-                        </div>
-                    </div>
-                    <div class="mx-2 my-4 h-[1px] border-t border-primary lg:h-auto lg:w-[1px] lg:border-l lg:border-t-0"></div>
-                     <div class="flex-1 p-5 lg:p-12">
-                        <div class="flex flex-col justify-center p-4 lg:p-12">
-                             <h3 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-headings">Quick Settings <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-click inline h-8 w-8 lg:h-10 lg:w-10"><path d="M3 12l3 0"></path><path d="M12 3l0 3"></path><path d="M7.8 7.8l-2.2 -2.2"></path><path d="M16.2 7.8l2.2 -2.2"></path><path d="M7.8 16.2l-2.2 2.2"></path><path d="M12 12l9 3l-4 2l-2 4l-3 -9"></path></svg></h3>
-                             <p class="mt-4 text-lg lg:text-xl text-primary">With Quick Settings, you gain rapid access to your custom assistants, presets, pre-prompts, and no-code tools, along with the ability to switch between workspaces seamlessly.</p>
-                        </div>
-                     </div>
-                </div>
+    <footer class="border-t border-white/10 bg-black/40 backdrop-blur-xl py-12 mt-12">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-headings font-bold text-xl">KOUSHO</div>
+            <div class="text-primary text-sm text-center md:text-right">
+                © 2025 Kousho Inc.<br>Designed for the future.
             </div>
-        </section>
+        </div>
+    </footer>
 
-        <!-- Footer -->
-        <footer class="bg-card border-t border-primary mt-20">
-            <div class="container mx-auto px-10 py-10">
-                <div class="mx-auto flex flex-col md:flex-row w-full justify-between border-b border-primary gap-12 pb-10">
-                    <div class="flex flex-col">
-                        <a href="index.html" class="text-2xl font-bold text-headings mb-4 inline-flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-transfer mr-2"><path d="M20 10h-16l5.5 -6"></path><path d="M4 14h16l-5.5 6"></path></svg>
-                        </a>
-                        <div class="mt-auto">
-                            <h2 class="text-md mt-6 font-bold text-headings opacity-80">Join Kousho's Journey</h2>
-                             <div class="mt-4 flex flex-row opacity-70 space-x-5">
-                                <a href="#" class="hover:text-headings transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
-                                <a href="#" class="hover:text-headings transition-colors"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.07451 1.82584C5.03267 1.81926 4.99014 1.81825 4.94803 1.82284C4.10683 1.91446 2.82673 2.36828 2.07115 2.77808C2.02106 2.80525 1.97621 2.84112 1.93869 2.88402C1.62502 3.24266 1.34046 3.82836 1.11706 4.38186C0.887447 4.95076 0.697293 5.55032 0.588937 5.98354C0.236232 7.39369 0.042502 9.08728 0.0174948 10.6925C0.0162429 10.7729 0.0351883 10.8523 0.0725931 10.9234C0.373679 11.496 1.02015 12.027 1.66809 12.4152C2.32332 12.8078 3.08732 13.1182 3.70385 13.1778C3.85335 13.1922 4.00098 13.1358 4.10282 13.0255C4.2572 12.8581 4.5193 12.4676 4.71745 12.1643C4.80739 12.0267 4.89157 11.8953 4.95845 11.7901C5.62023 11.9106 6.45043 11.9801 7.50002 11.9801C8.54844 11.9801 9.37796 11.9107 10.0394 11.7905C10.1062 11.8957 10.1903 12.0269 10.2801 12.1643C10.4783 12.4676 10.7404 12.8581 10.8947 13.0255C10.9966 13.1358 11.1442 13.1922 11.2937 13.1778C11.9102 13.1182 12.6742 12.8078 13.3295 12.4152C13.9774 12.027 14.6239 11.496 14.925 10.9234C14.9624 10.8523 14.9813 10.7729 14.9801 10.6925C14.9551 9.08728 14.7613 7.39369 14.4086 5.98354C14.3003 5.55032 14.1101 4.95076 13.8805 4.38186C13.6571 3.82836 13.3725 3.24266 13.0589 2.88402C13.0214 2.84112 12.9765 2.80525 12.9264 2.77808C12.1708 2.36828 10.8907 1.91446 10.0495 1.82284C10.0074 1.81825 9.96489 1.81926 9.92305 1.82584C9.71676 1.85825 9.5391 1.96458 9.40809 2.06355C9.26977 2.16804 9.1413 2.29668 9.0304 2.42682C8.86968 2.61544 8.71437 2.84488 8.61428 3.06225C8.27237 3.03501 7.90138 3.02 7.5 3.02C7.0977 3.02 6.72593 3.03508 6.38337 3.06244C6.28328 2.84501 6.12792 2.61549 5.96716 2.42682C5.85626 2.29668 5.72778 2.16804 5.58947 2.06355C5.45846 1.96458 5.2808 1.85825 5.07451 1.82584ZM4.08049 7.01221C4.32412 6.74984 4.65476 6.60162 5.00007 6.59998C5.34538 6.60162 5.67603 6.74984 5.91966 7.01221C6.16329 7.27459 6.30007 7.62974 6.30007 7.99998C6.30007 8.37021 6.16329 8.72536 5.91966 8.98774C5.67603 9.25011 5.34538 9.39833 5.00007 9.39998C4.65476 9.39833 4.32412 9.25011 4.08049 8.98774C3.83685 8.72536 3.70007 8.37021 3.70007 7.99998C3.70007 7.62974 3.83685 7.27459 4.08049 7.01221ZM9.99885 6.59998C9.65354 6.60162 9.3229 6.74984 9.07926 7.01221C8.83563 7.27459 8.69885 7.62974 8.69885 7.99998C8.69885 8.37021 8.83563 8.72536 9.07926 8.98774C9.3229 9.25011 9.65354 9.39833 9.99885 9.39998C10.3442 9.39833 10.6748 9.25011 10.9184 8.98774C11.1621 8.72536 11.2989 8.37021 11.2989 7.99998C11.2989 7.62974 11.1621 7.27459 10.9184 7.01221C10.6748 6.74984 10.3442 6.60162 9.99885 6.59998Z" fill="currentColor"></path></svg></a>
-                             </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col md:flex-row">
-                        <div>
-                            <ul class="mt-4 font-normal opacity-70 space-y-2">
-                                <li><a href="#" class="hover:text-headings transition-colors">Privacy Policy</a></li>
-                                <li><a href="#" class="hover:text-headings transition-colors">Cookie Policy</a></li>
-                                <li><a href="#" class="hover:text-headings transition-colors">Terms and Conditions</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                 <div class="mx-auto flex w-full items-center justify-center pt-10">
-                    <p class="text-xs font-normal opacity-30">Copyright © 2025 Kousho</p>
-                </div>
-            </div>
-        </footer>
-
+    <style>
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const header = document.getElementById('header');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuOpenIcon = document.getElementById('menu-open-icon');
-            const menuCloseIcon = document.getElementById('menu-close-icon');
-            const themeToggle = document.getElementById('theme-toggle');
-            const lightIcon = document.getElementById('theme-icon-light');
-            const darkIcon = document.getElementById('theme-icon-dark');
-            const body = document.body;
-            const darkModeVideo = document.getElementById('dark-mode-video');
-            const lightModeVideo = document.getElementById('light-mode-video');
-
-            // --- Theme Toggler ---
-            const applyTheme = (theme) => {
-                if (theme === 'light') {
-                    body.classList.remove('dark-theme');
-                    body.classList.add('light-theme');
-                    lightIcon.classList.add('hidden');
-                    darkIcon.classList.remove('hidden');
-                    document.documentElement.style.colorScheme = 'light';
-                    darkModeVideo.classList.add('hidden');
-                    lightModeVideo.classList.remove('hidden');
-                } else {
-                    body.classList.remove('light-theme');
-                    body.classList.add('dark-theme');
-                    lightIcon.classList.remove('hidden');
-                    darkIcon.classList.add('hidden');
-                    document.documentElement.style.colorScheme = 'dark';
-                    darkModeVideo.classList.remove('hidden');
-                    lightModeVideo.classList.add('hidden');
-                }
-            };
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-                localStorage.setItem('theme', newTheme);
-                applyTheme(newTheme);
-            });
-
-            // Load saved theme from localStorage or default to dark
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(savedTheme);
-
-
-            // Header scroll effect
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
-                }
-            });
-
-            // Mobile menu toggle
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                menuOpenIcon.classList.toggle('hidden');
-                menuCloseIcon.classList.toggle('hidden');
-            });
-            
-            // --- Countdown Timer ---
-            const daysEl = document.getElementById('days');
-            const hoursEl = document.getElementById('hours');
-            const minutesEl = document.getElementById('minutes');
-            const secondsEl = document.getElementById('seconds');
-            const timerContainer = document.getElementById('countdown-timer-container');
-
-            // Set the date we're counting down to (e.g., New Year's 2026)
-            const countDownDate = new Date("Jan 1, 2026 00:00:00").getTime();
-
-            const countdownInterval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
-
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    timerContainer.innerHTML = "<div class='text-4xl font-bold text-headings'>LAUNCHED!</div>";
-                    return;
-                }
+            // 1. Remove Preloader
+            setTimeout(() => {
+                const p = document.getElementById('preloader');
+                p.style.opacity = '0';
+                setTimeout(() => p.remove(), 800);
                 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                daysEl.innerHTML = String(days).padStart(2, '0');
-                hoursEl.innerHTML = String(hours).padStart(2, '0');
-                minutesEl.innerHTML = String(minutes).padStart(2, '0');
-                secondsEl.innerHTML = String(seconds).padStart(2, '0');
-
+                // Trigger text reveal
+                document.querySelectorAll('.reveal-text-line').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), 100 * i);
+                });
             }, 1000);
 
+            // 2. Mobile Menu Logic
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-nav');
+            const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+            let isMenuOpen = false;
+
+            menuBtn.addEventListener('click', () => {
+                isMenuOpen = !isMenuOpen;
+                if(isMenuOpen) {
+                    mobileMenu.classList.add('open');
+                    bars[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    bars[1].style.opacity = '0';
+                    bars[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.remove('open');
+                    bars[0].style.transform = 'none';
+                    bars[1].style.opacity = '1';
+                    bars[2].style.transform = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Close menu when link clicked
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => menuBtn.click());
+            });
+
+            // 3. Spotlight Effect (Desktop Only)
+            if (window.matchMedia('(hover: hover)').matches) {
+                const container = document.getElementById('spotlight-container');
+                const cards = document.querySelectorAll('.spotlight-card');
+                container.onmousemove = e => {
+                    for(const card of cards) {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    }
+                };
+            }
+
+            // 4. Stats Counter Animation
+            const counters = document.querySelectorAll('.counter');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const target = +entry.target.getAttribute('data-target');
+                        const updateCount = () => {
+                            const count = +entry.target.innerText;
+                            const inc = target / 100;
+                            if(count < target) {
+                                entry.target.innerText = Math.ceil(count + inc);
+                                setTimeout(updateCount, 20);
+                            } else {
+                                entry.target.innerText = target;
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            counters.forEach(c => observer.observe(c));
+
+            // 5. Custom Cursor (Desktop)
+            const cursor = document.getElementById('custom-cursor');
+            if (window.matchMedia('(pointer: fine)').matches) {
+                document.addEventListener('mousemove', e => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
+                document.querySelectorAll('.hover-trigger').forEach(t => {
+                    t.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                    t.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+                });
+            }
         });
     </script>
 </body>
 </html>
-
